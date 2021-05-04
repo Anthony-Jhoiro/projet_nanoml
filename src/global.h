@@ -16,13 +16,13 @@
  */
 #define BUFFER_SIZE 255
 
-
 // --- structures --- //
 
 /**
  * TODO : comment
  */
-typedef enum e_tags {
+typedef enum e_tags
+{ // TODO : do something
     t_texte_enrichi,
     t_document,
     t_annexes,
@@ -37,28 +37,39 @@ typedef enum e_tags {
     t_contenu_texte,
     t_mot_enrichi,
     t_mot_important,
-    t_mot_simple
+    t_mot_simple,
+    b_document,
+    b_annexe,
+    b_section,
+    b_titre,
+    b_liste,
+    b_item,
+    b_important,
+    b_br
 
 } tagsNames;
 
 /**
  * TODO : comment
  */
-typedef struct s_tag {
-    tagsNames name;
-    struct s_tag* children;
-    int nbChildren;
-    char* content;
-} tag ;
+typedef struct s_item
+{
+    struct s_tag *element;
+    struct s_item *next;
+} item;
 
-typedef tag* root;
+typedef item *tag_list;
 
 /**
  * TODO : comment
  */
-typedef struct s_item {
-    tag* element;
-    struct s_item* next;
-} item;
+typedef struct s_tag
+{
+    tagsNames tagName;
+    tag_list children;
+    char *content;
+} tag;
+
+typedef tag *root;
 
 #endif

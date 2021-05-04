@@ -6,9 +6,101 @@
  * \param content The content of the tag
  * TODO : finish
  */
-tag* createTag(tagsNames name, char* content) {
-    tag* t = malloc(sizeof (tag));
+tag *createTag(tagsNames name, char *content)
+{
+    tag *t = malloc(sizeof(tag));
 
-    t->name = name;
-    t->children = createList();
+    t->tagName = name;
+    t->content = content;
+    t->children = EMPTY_LIST;
+
+    return t;
+}
+
+void addChild(tag *father, tag *child)
+{
+    appendToList(father->children, child);
+}
+
+void printTagName(tagsNames name)
+{
+    if (name == b_document)
+    {
+        printf("document>");
+    }
+    else if (name == b_annexe)
+    {
+        printf("annexe>");
+    }
+    else if (name == b_section)
+    {
+        printf("section>");
+    }
+    else if (name == b_titre)
+    {
+        printf("titre>");
+    }
+    else if (name == b_liste)
+    {
+        printf("liste>");
+    }
+    else if (name == b_item)
+    {
+        printf("item>");
+    }
+    else if (name == b_important)
+    {
+        printf("important>");
+    }
+    else if (name == b_br)
+    {
+        printf("br/>");
+    }
+}
+
+void printTabs(int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("\t");
+    }
+}
+
+void printTagAux(tag *element, int decalage)
+{
+    if (element == NULL)
+        return;
+
+    printTabs(decalage);
+
+    if (element->tagName == t_mot_simple) {
+        printf("%s", element->content);
+        printf("\n");
+    } else {
+        printf("<");
+        printTagName(element->tagName);
+        printf("\n");
+        item* child = element->children;
+        while (child != NULL)
+        {
+            printTagAux(child->element, decalage + 1);
+            child = child->next;
+        }
+        
+        printf("</");
+        printTagName(element->tagName);
+        printf("\n");        
+    }
+}
+
+/**
+ * TODO : comment
+ * result example : <document>
+ *                            <section>
+ *                                      Bonjour le monde
+ *                            </section>
+ *                  </document>
+ */
+void printTag(tag* element) {
+    printTagAux(element, 0);
 }

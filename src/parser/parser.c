@@ -4,7 +4,11 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    readText(cursor);
+    tag* res = readText(cursor);
+
+    printf("\n\n");
+    printTag(res);
+    
 
     fclose(cursor->file);
 }
@@ -12,6 +16,7 @@ void parser(char *filename)
 void nextCharacter(reader cursor)
 {
     cursor->currentChar = fgetc(cursor->file);
+    printf("%c", cursor->currentChar);
 
     if (cursor->currentChar == EOF)
     {
@@ -31,50 +36,46 @@ reader createReader(char *filename)
     return cursor;
 }
 
-int isSyntaxChar(char c)
+int estChevronGauche(char c)
 {
-    return c == '<' || c == '>';
+    return c == '<' ;
 }
 
-int isSpace(char c) {
-    return c == ' ';
+int estEspace(char c) {
+    return c == ' ' || c == '\n' || c == '\t';
 }
 
 void readSpaces(reader cursor)
 {
-    while (isSpace(cursor->currentChar))
+    while (estEspace(cursor->currentChar))
     {
         nextCharacter(cursor);
     }
 }
 
-int readWord(reader cursor, char* buffer) {
-    
-    int length = 0;
-    while (cursor->currentChar != ' ' && cursor->currentChar != '<' && length < BUFFER_SIZE - 1 )
-    {
-        sprintf(buffer, "%s%c", buffer, cursor->currentChar);
-        nextCharacter(cursor);
-        length++;
-    }
 
-    return length;
-    
-}
 
 tag* readText(reader cursor)
 {
 
+    return lireMotSimple(cursor);
+}
+
+tag* lireMotSimple(reader cursor) {
+    // On passe les espaces
     readSpaces(cursor);
 
-    
-    char buffer[BUFFER_SIZE];
-    while (readWord(cursor, buffer)) {
-        
-        printf("Word : %s\n", buffer);
-        readSpaces(cursor);
-        
-
+    char *buffer = malloc(BUFFER_SIZE);
+    int length = 0;
+    while ((! estEspace(cursor->currentChar) )&& (!estChevronGauche(cursor->currentChar)) && length < BUFFER_SIZE - 1 )
+    {
+        sprintf(buffer + length, "%c", cursor->currentChar);
+        nextCharacter(cursor);
+        length++;
     }
-    return NULL;
+    if (length == 0) {
+        return NULL;
+    }
+
+    return createTag(t_mot_simple, buffer);
 }

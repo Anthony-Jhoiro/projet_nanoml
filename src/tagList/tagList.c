@@ -16,6 +16,12 @@ tagList createList(tag* element) {
  * \param tagList the list to update
  * \param element the tag to add
  */
-void appendToList(tagList tagList, tag* element) {
-
+void appendToList(tagList list, tag* element) {
+    if (list == EMPTY_LIST) {
+        list = createList(element);
+    } else if (list->next == END_TAG_LIST) {
+        list->next = createList(element);
+    } else {
+        appendToList(list->next, element);
+    }
 }

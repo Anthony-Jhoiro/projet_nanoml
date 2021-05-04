@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "../global.h"
+#include "../tag/tag.h"
 #include <stdio.h>
 
 typedef struct s_reader {
@@ -24,6 +24,8 @@ tag readTag(reader cursor, tagsNames name);
  */
 
 tag* readText(reader cursor);
+
+tag* lireMotSimple(reader cursor);
 
 
 
