@@ -3,11 +3,17 @@
 /**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see tagsNames)
- * \param content The content of the tag
- * TODO : finish
  */
-tag *createTag(tagsNames name, char *content)
+tag *createTag(tagsNames name)
 {
+    return createTagMotSimple(name, NULL);}
+
+/**
+ * \brief This function creates a tag and allocate the memory.
+ * \param name The name of the tag (see tagsNames)
+ * \param content The content of the tag
+ */
+tag *createTagMotSimple(tagsNames name, char* content) {
     tag *t = malloc(sizeof(tag));
 
     t->tagName = name;
@@ -19,7 +25,7 @@ tag *createTag(tagsNames name, char *content)
 
 void addChild(tag *father, tag *child)
 {
-    appendToList(father->children, child);
+    father->children = appendToList(father->children, child);
 }
 
 void printTagName(tagsNames name)
@@ -56,6 +62,10 @@ void printTagName(tagsNames name)
     {
         printf("br/>");
     }
+    else if (name == t_texte)
+    {
+        printf("texte>");
+    }
 }
 
 void printTabs(int n)
@@ -80,6 +90,10 @@ void printTagAux(tag *element, int decalage)
         printf("<");
         printTagName(element->tagName);
         printf("\n");
+
+        if (element->children == EMPTY_LIST) {
+            printf("No children\n");
+        }
         item* child = element->children;
         while (child != NULL)
         {

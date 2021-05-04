@@ -8,7 +8,14 @@
  * \param name The name of the tag (see tagsNames)
  * \param content The content of the tag
  */
-tag *createTag(tagsNames name, char* content);
+tag *createTag(tagsNames name);
+
+/**
+ * \brief This function creates a tag and allocate the memory.
+ * \param name The name of the tag (see tagsNames)
+ * \param content The content of the tag
+ */
+tag *createTagMotSimple(tagsNames name, char* content);
 
 /**
  * TODO : comment

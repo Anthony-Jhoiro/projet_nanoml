@@ -18,7 +18,7 @@ tagList createList(tag* element);
  * \param tagList the list to update
  * \param element the tag to add
  */
-void appendToList(tagList tagList, tag* element);
+tagList appendToList(tagList tagList, tag* element);
 
 /**
  * TODO : comment
