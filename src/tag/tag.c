@@ -54,7 +54,7 @@ void printTagName(tagsNames name)
     {
         printf("item>");
     }
-    else if (name == b_important)
+    else if (name == t_mot_important)
     {
         printf("important>");
     }

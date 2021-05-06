@@ -4,7 +4,9 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    tag *res = readText(cursor);
+    t_parser parser = createImportantParser();
+
+    tag *res = parser.execute(cursor);
 
     printf("\n\n");
     printTag(res);
@@ -12,11 +14,9 @@ void parser(char *filename)
     fclose(cursor->file);
 }
 
-
-
 void nextCharacter(reader cursor)
 {
-    
+
     cursor->currentChar = fgetc(cursor->file);
     printf("%c", cursor->currentChar);
 
@@ -56,61 +56,38 @@ void readSpaces(reader cursor)
     }
 }
 
-tag* lireMotEnrichi(reader cursor) {
+// tag* lireMotEnrichi(reader cursor) {
 
-    t_parser mot_simple;
-    mot_simple.execute = lireMotSimple;
+//     t_parser mot_simple;
+//     mot_simple.execute = lireMotSimple;
 
-    t_parser mot_important;
-    mot_important.execute = lireMotImportant;
+//     t_parser mot_important;
+//     mot_important.execute = lireMotImportant;
 
-    t_parser parsers[2] = {mot_simple, mot_important};
+//     t_parser parsers[2] = {mot_simple, mot_important};
 
-    return ou(cursor,parsers, 2);
-}
+//     return ou(cursor,parsers, 2);
+// }
 
-tag *readText(reader cursor)
-{
-    tag *t = createTag(t_texte);
+// tag *readText(reader cursor)
+// {
+//     tag *t = createTag(t_texte);
 
-    t_parser parserMotEnrichi;
-    parserMotEnrichi.execute = lireMotEnrichi;
+//     t_parser parserMotEnrichi;
+//     parserMotEnrichi.execute = lireMotEnrichi;
 
-    t->children = unOuPlus(parserMotEnrichi, cursor);
+//     t->children = unOuPlus(parserMotEnrichi, cursor);
 
-    // tag *mot = lireMotSimple(cursor);
+//     // tag *mot = lireMotSimple(cursor);
 
-    // while (mot != NULL)
-    // {
-    //     addChild(t, mot);
-    //     mot = lireMotSimple(cursor);
-    // }
+//     // while (mot != NULL)
+//     // {
+//     //     addChild(t, mot);
+//     //     mot = lireMotSimple(cursor);
+//     // }
 
-    return t;
-}
-
-tag *lireMotSimple(reader cursor)
-{
-    // On passe les espaces
-    readSpaces(cursor);
-
-    char *buffer = malloc(BUFFER_SIZE);
-    int length = 0;
-    while ((!estEspace(cursor->currentChar)) && (!estChevronGauche(cursor->currentChar)) && length < BUFFER_SIZE - 1)
-    {
-        sprintf(buffer + length, "%c", cursor->currentChar);
-        nextCharacter(cursor);
-        length++;
-    }
-    if (length == 0)
-    {
-        return NULL;
-    }
-
-    return createTagMotSimple(t_mot_simple, buffer);
-}
-
-
+//     return t;
+// }
 
 int passerTag(reader cursor, char *strTag)
 {
@@ -119,7 +96,6 @@ int passerTag(reader cursor, char *strTag)
     int i = 0;
     while (strTag[i] != '\0')
     {
-        printf("%c, %c", cursor->currentChar, strTag[i]);
         if (cursor->currentChar != strTag[i])
         {
             return 0;
@@ -130,47 +106,31 @@ int passerTag(reader cursor, char *strTag)
     return 1;
 }
 
-tag *lireMotImportant(reader cursor)
-{
-    printf("Lire mot important\n");
-    // Find the right tag
-    if (passerTag(cursor, "<important>"))
-    {
-        // Create Mot simple parser structure
-        t_parser p;
-        p.execute = lireMotSimple;
-
-        // Read words
-        tagList children = unOuPlus(p, cursor);
-
-        // Create tag
-        tag* importantTag = createTag(t_mot_important);
-
-        importantTag->children = children;
-        
-        // If the closing tag do not match throw an error
-        if (!passerTag(cursor, "</important>")) {
-            fprintf(stderr, "Error : expected </important>");
-            exit(1);
-        }
-        // return the tag
-        return importantTag;
-    }
-
-    return TAG_NULL;
-}
-
 tagList unOuPlus(t_parser parser, reader cursor)
 {
     tagList list = EMPTY_LIST;
-
-    tag *t = parser.execute(cursor);
-    while (t != NULL)
+    char buffer[BUFFER_SIZE];
+    // TODO handle errors && case empty tag
+    if (!readOpeningTag(cursor, buffer))
     {
-        printTag(t);
-        list = appendToList(list, t);
-        t = parser.execute(cursor);
+        fprintf(stderr, "Error : invalid tag.");
+        exit(2);
     }
+
+    while (parser.verify(buffer))
+    {
+        list = appendToList(list, parser.execute(cursor));
+        int readStatus = readOpeningTag(cursor, buffer);
+        if (!readStatus)
+        {
+            fprintf(stderr, "Error : invalid tag.");
+            exit(2);
+        }
+        if (readStatus == 2) {
+            return list;
+        }
+    }
+
     return list;
 }
 
@@ -190,4 +150,78 @@ tag *ou(reader cursor, t_parser *parsers, int nbParsers)
     }
 
     return t;
+}
+
+int compareStr(char *str1, char *str2)
+{
+
+    int cpt = 0;
+
+    while (str1[cpt] != '\0')
+    {
+        if (str1[cpt] != str2[cpt])
+        {
+            return 0;
+        }
+        cpt++;
+    }
+
+    return str2[cpt] == '\0';
+}
+
+int readOpeningTag(reader cursor, char *buff)
+{
+    readSpaces(cursor);
+
+    if (cursor->currentChar != '<')
+    {
+        buff[0] = '\0';
+        return 1;
+    }
+    nextCharacter(cursor);
+
+    if (cursor->currentChar == '/')
+    {
+        return 2;
+    }
+
+    int buffIndex = 0;
+
+    nextCharacter(cursor);
+
+    while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
+    {
+        buff[buffIndex] = cursor->currentChar;
+        nextCharacter(cursor);
+        buffIndex++;
+    }
+    buff[buffIndex] = '\0';
+
+    readSpaces(cursor);
+
+    return cursor->currentChar == '>';
+}
+
+int readClosingTag(reader cursor, char *buff)
+{
+    readSpaces(cursor);
+    int buffIndex = 0;
+
+    if (cursor->currentChar != '/')
+    {
+        return 0;
+    }
+
+    nextCharacter(cursor);
+
+    while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
+    {
+        buff[buffIndex] = cursor->currentChar;
+        buffIndex++;
+        nextCharacter(cursor);
+    }
+    buff[buffIndex] = '\0';
+
+    readSpaces(cursor);
+    return cursor->currentChar == '>';
 }

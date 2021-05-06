@@ -15,6 +15,7 @@ typedef t_reader* reader;
 typedef struct s_parser
 {
     tag* (*execute)(reader);
+    int (*verify)(char*);
 } t_parser;
 
 
@@ -31,6 +32,12 @@ tag readTag(reader cursor, tagsNames name);
  */
 
 tag* readText(reader cursor);
+
+int estEspace(char c);
+
+void readSpaces(reader cursor);
+
+int estChevronGauche(char c);
 
 tag* lireMotSimple(reader cursor);
 
@@ -52,5 +59,46 @@ tagList unOuPlus(t_parser parser, reader cursor);
 tag *ou(reader cursor, t_parser *parsers, int nbParsers);
 
 
+int compareStr(char* str1, char* str2);
+
+
+//----------- parser pour chaque tag ------------------
+
+// Document
+t_parser createDocumentParser();
+
+// Annexes
+t_parser createAnnexeParser();
+
+// Mot important
+t_parser createImportantParser();
+
+// Mot simple
+t_parser createMotSimpleParser();
+
+// Liste
+t_parser createListeParser();
+
+// item
+t_parser createItemParser();
+
+// Section
+t_parser createSectionParser();
+
+// Mot simple
+t_parser createMotSimpleParser();
+
+
+
+tag* lireMotSimple(reader cursor);
+
+tag* lireMotImportant(reader cursor);
+
+tag* lireMotEnrichi(reader cursor);
+
+
+int readOpeningTag(reader cursor, char* buff);
+
+int readClosingTag(reader cursor, char* buff);
 
 #endif

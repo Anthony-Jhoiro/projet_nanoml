@@ -1,0 +1,49 @@
+{
+    execute: (reader) => tag*
+    tag_name: LinkedList int* []
+}
+
+getParseurABC() {
+    return {
+    execute: (reader) => tag*
+    tag_name: char* => malloc
+}
+}
+
+
+
+a => <liste>
+    b => <gateau>
+    c => <banane>
+    d => <poire>
+
+{
+    execute: (reader) => lireA
+    getName: () => liste 
+}
+
+
+lireA() {
+    ou({b, c, d}, 3)
+}
+
+ou() {
+    balise = b.getName()
+    balise = b.getName()
+    balise = b.getName()
+}
+
+
+{
+    execute: (reader) => lireA
+    verify: (char*) => 1/0 
+}
+
+ou(actions ) {
+    buff = lireBalise
+
+    for action in actions:
+        if  action.verify(buff) {
+            return action.execute
+        }
+}
