@@ -3,6 +3,9 @@
 
 #include "../global.h"
 #include "../tagList/tagList.h"
+
+#define TAG_NULL NULL
+
 /**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see tagsNames)

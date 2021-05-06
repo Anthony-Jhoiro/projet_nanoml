@@ -8,8 +8,6 @@ tagList createList(tag* element) {
     liste->element = element;
     liste->next = END_TAG_LIST;
 
-    printf("%p", liste);
-
     return liste;
 }
 
