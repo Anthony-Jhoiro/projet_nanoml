@@ -73,6 +73,8 @@ t_parser createAnnexeParser();
 // Mot important
 t_parser createImportantParser();
 
+int verifyImportant(char *tagName);
+
 // Mot simple
 t_parser createMotSimpleParser();
 
@@ -87,6 +89,16 @@ t_parser createSectionParser();
 
 // Mot simple
 t_parser createMotSimpleParser();
+
+int verifyMotSimple(char* tagName);
+
+// Mot Enrichi
+t_parser createMotEnrichiParser();
+
+// retourLigne
+t_parser createRetourLigneParser();
+
+int verifyRetourLigne(char* tagName);
 
 
 

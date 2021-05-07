@@ -6,14 +6,16 @@
  */
 tag *createTag(tagsNames name)
 {
-    return createTagMotSimple(name, NULL);}
+    return createTagMotSimple(name, NULL);
+}
 
 /**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see tagsNames)
  * \param content The content of the tag
  */
-tag *createTagMotSimple(tagsNames name, char* content) {
+tag *createTagMotSimple(tagsNames name, char *content)
+{
     tag *t = malloc(sizeof(tag));
 
     t->tagName = name;
@@ -30,27 +32,27 @@ void addChild(tag *father, tag *child)
 
 void printTagName(tagsNames name)
 {
-    if (name == b_document)
+    if (name == t_document)
     {
         printf("document>");
     }
-    else if (name == b_annexe)
+    else if (name == t_annexes)
     {
         printf("annexe>");
     }
-    else if (name == b_section)
+    else if (name == t_section)
     {
         printf("section>");
     }
-    else if (name == b_titre)
+    else if (name == t_titre)
     {
         printf("titre>");
     }
-    else if (name == b_liste)
+    else if (name == t_liste)
     {
         printf("liste>");
     }
-    else if (name == b_item)
+    else if (name == t_item)
     {
         printf("item>");
     }
@@ -58,13 +60,17 @@ void printTagName(tagsNames name)
     {
         printf("important>");
     }
-    else if (name == b_br)
+    else if (name == t_retour_ligne)
     {
         printf("br/>");
     }
     else if (name == t_texte)
     {
         printf("texte>");
+    }
+    else if (name == t_mot_enrichi)
+    {
+        printf("enrichi>");
     }
 }
 
@@ -83,27 +89,36 @@ void printTagAux(tag *element, int decalage)
 
     printTabs(decalage);
 
-    if (element->tagName == t_mot_simple) {
+    if (element->tagName == t_mot_simple)
+    {
         printf("%s", element->content);
         printf("\n");
-    } else {
+    }
+    else if (element->tagName == t_retour_ligne)
+    {
+        printf("<br/>\n");
+    }
+    else
+    {
         printf("<");
         printTagName(element->tagName);
         printf("\n");
 
-        if (element->children == EMPTY_LIST) {
+        if (element->children == EMPTY_LIST)
+        {
             printf("No children\n");
         }
-        item* child = element->children;
+        item *child = element->children;
         while (child != NULL)
         {
             printTagAux(child->element, decalage + 1);
             child = child->next;
         }
-        
+        printTabs(decalage);
+
         printf("</");
         printTagName(element->tagName);
-        printf("\n");        
+        printf("\n");
     }
 }
 
@@ -115,6 +130,7 @@ void printTagAux(tag *element, int decalage)
  *                            </section>
  *                  </document>
  */
-void printTag(tag* element) {
+void printTag(tag *element)
+{
     printTagAux(element, 0);
 }

@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createImportantParser();
+    t_parser parser = createMotEnrichiParser();
 
     tag *res = parser.execute(cursor);
 
@@ -126,7 +126,8 @@ tagList unOuPlus(t_parser parser, reader cursor)
             fprintf(stderr, "Error : invalid tag.");
             exit(2);
         }
-        if (readStatus == 2) {
+        if (readStatus == 2)
+        {
             return list;
         }
     }
@@ -136,20 +137,21 @@ tagList unOuPlus(t_parser parser, reader cursor)
 
 tag *ou(reader cursor, t_parser *parsers, int nbParsers)
 {
-    long position = ftell(cursor->file);
-
-    tag *t = TAG_NULL;
-    for (int i = 0; i < nbParsers; i++)
+    char buff[BUFFER_SIZE];
+    if (!readOpeningTag(cursor, buff))
     {
-        t = parsers[i].execute(cursor);
-        if (t != TAG_NULL)
-        {
-            return t;
-        }
-        fseek(cursor->file, position, SEEK_SET);
+        fprintf(stderr, "Invalid tag");
+        exit(3);
     }
 
-    return t;
+    for (int i = 0; i < nbParsers; i++)
+    {
+        if (parsers[i].verify(buff))
+        {
+            return parsers[i].execute(cursor);
+        }
+    }
+    return TAG_NULL;
 }
 
 int compareStr(char *str1, char *str2)
@@ -187,8 +189,6 @@ int readOpeningTag(reader cursor, char *buff)
 
     int buffIndex = 0;
 
-    nextCharacter(cursor);
-
     while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
     {
         buff[buffIndex] = cursor->currentChar;
@@ -197,9 +197,13 @@ int readOpeningTag(reader cursor, char *buff)
     }
     buff[buffIndex] = '\0';
 
-    readSpaces(cursor);
+    readSpaces(cursor); 
+    
+    int status = cursor->currentChar == '>';
 
-    return cursor->currentChar == '>';
+    nextCharacter(cursor);
+
+    return status;
 }
 
 int readClosingTag(reader cursor, char *buff)
@@ -222,6 +226,13 @@ int readClosingTag(reader cursor, char *buff)
     }
     buff[buffIndex] = '\0';
 
+    
+
     readSpaces(cursor);
-    return cursor->currentChar == '>';
+    int status =  cursor->currentChar == '>';
+    
+    // We read one last character to start the next read at 
+    // the begining of the next grammar item
+    nextCharacter(cursor);    
+    return status;
 }

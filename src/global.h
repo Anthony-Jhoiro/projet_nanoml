@@ -38,14 +38,7 @@ typedef enum e_tags
     t_mot_enrichi,
     t_mot_important,
     t_mot_simple,
-    b_document,
-    b_annexe,
-    b_section,
-    b_titre,
-    b_liste,
-    b_item,
-    b_important,
-    b_br
+    t_retour_ligne,
 
 } tagsNames;
 
