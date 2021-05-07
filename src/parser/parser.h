@@ -100,6 +100,9 @@ t_parser createRetourLigneParser();
 
 int verifyRetourLigne(char* tagName);
 
+// texte
+t_parser createTexteParser();
+
 
 
 tag* lireMotSimple(reader cursor);

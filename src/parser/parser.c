@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createMotEnrichiParser();
+    t_parser parser = createTexteParser();
 
     tag *res = parser.execute(cursor);
 
@@ -126,7 +126,7 @@ tagList unOuPlus(t_parser parser, reader cursor)
             fprintf(stderr, "Error : invalid tag.");
             exit(2);
         }
-        if (readStatus == 2)
+        if (readStatus == 2 || cursor->currentChar == EOF)
         {
             return list;
         }
