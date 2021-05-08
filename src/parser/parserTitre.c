@@ -15,7 +15,7 @@ tag *parseTitre(reader cursor)
 
     tag* texte = parserTexte.execute(cursor);
 
-    if ((!readClosingTag(cursor)) || !verifyTitre(currentTag))
+    if ((!readClosingTag(cursor)) || !verifyTitre(cursor->currentTag))
     {
         fprintf(stderr, "Error : expected </titre>\n");
         exit(1);

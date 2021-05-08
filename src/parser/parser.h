@@ -4,11 +4,10 @@
 #include "../tag/tag.h"
 #include <stdio.h>
 
-char currentTag[BUFFER_SIZE];
-
 typedef struct s_reader {
     FILE* file;
     char currentChar;
+    char currentTag[BUFFER_SIZE];
 } t_reader;
 
 typedef t_reader* reader;

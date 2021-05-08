@@ -14,7 +14,7 @@
 /**
  * TODO : comment
  */
-#define BUFFER_SIZE 63
+#define BUFFER_SIZE 64
 
 // --- structures --- //
 

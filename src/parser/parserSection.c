@@ -18,7 +18,7 @@ tag* parseSection(reader cursor) {
         exit(1);
     }
 
-    if ((!readClosingTag(cursor)) || !verifySection(currentTag))
+    if ((!readClosingTag(cursor)) || !verifySection(cursor->currentTag))
     {
         fprintf(stderr, "Error : expected </section>");
         exit(1);

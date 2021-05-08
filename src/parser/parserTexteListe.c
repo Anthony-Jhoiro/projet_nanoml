@@ -20,7 +20,7 @@ tag* parseTexteListe(reader cursor) {
     addChild(texteListe, texte);
 
     // Read Liste-texte
-    if (p_listeTexte.verify(currentTag)) {
+    if (p_listeTexte.verify(cursor->currentTag)) {
         tag* listeTexte = p_listeTexte.execute(cursor);
         if (listeTexte != TAG_NULL) {
             addChild(texteListe, listeTexte);

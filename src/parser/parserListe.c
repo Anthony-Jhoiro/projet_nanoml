@@ -13,7 +13,7 @@ tag* parseListe(reader cursor) {
     tagList children = unOuPlus(p_item, cursor);
 
 
-    if ((!readClosingTag(cursor)) || !verifyListe(currentTag))
+    if ((!readClosingTag(cursor)) || !verifyListe(cursor->currentTag))
     {
         fprintf(stderr, "Error : expected </liste>");
         exit(1);
