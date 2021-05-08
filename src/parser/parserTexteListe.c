@@ -25,9 +25,7 @@ tag* parseTexteListe(reader cursor) {
         if (listeTexte != TAG_NULL) {
             addChild(texteListe, listeTexte);
         }
-
     }
-
 
     return texteListe;
 }

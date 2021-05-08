@@ -83,11 +83,7 @@ tagList unOuPlus(t_parser parser, reader cursor)
     tagList list = EMPTY_LIST;
 
     // Fail if not a valid tag
-    if (!readOpeningTag(cursor))
-    {
-        fprintf(stderr, "Error : invalid tag.");
-        exit(2);
-    }
+    readOpeningTag(cursor);
 
     // While the verify function return true, we use the parser
     while (parser.verify(cursor->currentTag))
@@ -95,11 +91,6 @@ tagList unOuPlus(t_parser parser, reader cursor)
         list = appendToList(list, parser.execute(cursor));
 
         int readStatus = readOpeningTag(cursor);
-        if (!readStatus)
-        {
-            fprintf(stderr, "Error : invalid tag.");
-            exit(2);
-        }
 
         // If this is a closing tag or the end of the file return the list
         if (readStatus == 2 || cursor->currentChar == EOF)
@@ -168,11 +159,14 @@ int readOpeningTag(reader cursor)
 
     readSpaces(cursor);
 
-    int status = cursor->currentChar == '>';
+    if (cursor->currentChar == '>')
+    {
+        nextCharacter(cursor);
+        return 1;
+    }
 
-    nextCharacter(cursor);
-
-    return status;
+    fprintf(stderr, "\n\e[0;35mError: Invalid tag\e[0;37m\n");
+    exit(3);
 }
 
 void readClosingTag(reader cursor)
@@ -200,7 +194,7 @@ void readClosingTag(reader cursor)
         }
     }
 
-    fprintf(stderr, "Error: Invalid closing tag");
+    fprintf(stderr, "\n\e[0;35mError: Invalid closing tag\e[0;37m\n");
     exit(2);
 }
 
@@ -208,7 +202,7 @@ void assertCurrentTag(reader cursor, char *tagName)
 {
     if (!compareStr(cursor->currentTag, tagName))
     {
-        fprintf(stderr, "Error: expecting \"%s\", got [%s]", tagName, cursor->currentTag);
+        fprintf(stderr, "\n\e[0;35mError: expecting \"%s\", got [%s]\e[0;37m\n", tagName, cursor->currentTag);
         exit(1);
     }
 }

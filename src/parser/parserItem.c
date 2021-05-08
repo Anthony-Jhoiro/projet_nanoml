@@ -17,20 +17,9 @@ tag *parseItem(reader cursor)
 
     tag *child = ou(cursor, parsers, nbParsers);
 
-    // tag *child;
-
-    // child = p_listeTexte.execute(cursor);
-
-    // if (child == TAG_NULL)
-    // {
-    //     printf("Parse texte");
-    //     t_parser p_texteListe = createTexteListeParser();
-    //     child = p_texteListe.execute(cursor);
-    // }
-
     if (child == TAG_NULL)
     {
-        fprintf(stderr, "Error, expected liste or texte.");
+        fprintf(stderr, "\e[0;35mError: expected liste or texte.\e[0;37m");
         exit(4);
     }
 
