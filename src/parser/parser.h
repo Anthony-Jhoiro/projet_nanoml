@@ -19,6 +19,8 @@ typedef struct s_parser
     int (*verify)(char*);
 } t_parser;
 
+void assertCurrentTag(reader cursor, char* tagName);
+
 
 void nextCharacter(reader cursor);
 
@@ -140,6 +142,6 @@ tag* lireMotEnrichi(reader cursor);
 
 int readOpeningTag(reader cursor);
 
-int readClosingTag(reader cursor);
+void readClosingTag(reader cursor);
 
 #endif

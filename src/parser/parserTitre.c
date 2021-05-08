@@ -15,11 +15,8 @@ tag *parseTitre(reader cursor)
 
     tag* texte = parserTexte.execute(cursor);
 
-    if ((!readClosingTag(cursor)) || !verifyTitre(cursor->currentTag))
-    {
-        fprintf(stderr, "Error : expected </titre>\n");
-        exit(1);
-    }
+    readClosingTag(cursor);
+    assertCurrentTag(cursor, "titre");
 
     tag* titre = createTag(t_titre);
     

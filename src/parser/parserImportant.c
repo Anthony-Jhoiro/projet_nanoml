@@ -17,11 +17,8 @@ tag *parseImportant(reader cursor)
     tagList children = unOuPlus(motSimple, cursor);
 
     // If the closing tag do not match throw an error
-    if ((!readClosingTag(cursor)) || !verifyImportant(cursor->currentTag))
-    {
-        fprintf(stderr, "Error : expected </important>");
-        exit(1);
-    }
+    readClosingTag(cursor);
+    assertCurrentTag(cursor, "important");
 
     // Create tag
     tag *importantTag = createTag(t_mot_important);

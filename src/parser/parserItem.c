@@ -34,11 +34,8 @@ tag *parseItem(reader cursor)
         exit(4);
     }
 
-    if ((!readClosingTag(cursor)) || !verifyItem(cursor->currentTag))
-    {
-        fprintf(stderr, "Error : expected </item>");
-        exit(1);
-    }
+    readClosingTag(cursor);
+    assertCurrentTag(cursor, "item");
 
     tag *item = createTag(t_item);
     addChild(item, child);

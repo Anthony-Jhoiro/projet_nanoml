@@ -166,8 +166,8 @@ int readOpeningTag(reader cursor)
     }
     cursor->currentTag[buffIndex] = '\0';
 
-    readSpaces(cursor); 
-    
+    readSpaces(cursor);
+
     int status = cursor->currentChar == '>';
 
     nextCharacter(cursor);
@@ -175,31 +175,40 @@ int readOpeningTag(reader cursor)
     return status;
 }
 
-int readClosingTag(reader cursor)
+void readClosingTag(reader cursor)
 {
     readSpaces(cursor);
     int buffIndex = 0;
 
-    if (cursor->currentChar != '/')
+    if (cursor->currentChar == '/')
     {
-        return 0;
-    }
-
-    nextCharacter(cursor);
-
-    while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
-    {
-        cursor->currentTag[buffIndex] = cursor->currentChar;
-        buffIndex++;
         nextCharacter(cursor);
-    }
-    cursor->currentTag[buffIndex] = '\0'; 
 
-    readSpaces(cursor);
-    int status =  cursor->currentChar == '>';
-    
-    // We read one last character to start the next read at 
-    // the begining of the next grammar item
-    nextCharacter(cursor);    
-    return status;
+        while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
+        {
+            cursor->currentTag[buffIndex] = cursor->currentChar;
+            buffIndex++;
+            nextCharacter(cursor);
+        }
+        cursor->currentTag[buffIndex] = '\0';
+
+        readSpaces(cursor);
+        if (cursor->currentChar == '>')
+        {
+            nextCharacter(cursor);
+            return;
+        }
+    }
+
+    fprintf(stderr, "Error: Invalid closing tag");
+    exit(2);
+}
+
+void assertCurrentTag(reader cursor, char *tagName)
+{
+    if (!compareStr(cursor->currentTag, tagName))
+    {
+        fprintf(stderr, "Error: expecting \"%s\", got [%s]", tagName, cursor->currentTag);
+        exit(1);
+    }
 }
