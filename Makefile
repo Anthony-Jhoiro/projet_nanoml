@@ -1,19 +1,25 @@
-nanoml : parser.o nanoml.o tag.o tagList.o
-	gcc -o nanoml *.o
+CXX       := gcc
+CXX_FLAGS := -ggdb
 
-nanoml.o : nanoml.c 
-	gcc -c nanoml.c 
+BIN     := bin
+SRC     := src
+INCLUDE := include
 
-# TODO : update .c list
-parser.o : src/parser/parser.c src/parser/parserAnnexes.c src/parser/parserDocument.c src/parser/parserImportant.c src/parser/parserItem.c src/parser/parserListe.c src/parser/parserMotSimple.c src/parser/parserSection.c
-	gcc -c src/parser/*.c
+LIBRARIES   :=
+EXECUTABLE  := nanoml
 
-tag.o : src/tag/tag.c
-	gcc -c src/tag/tag.c
 
-tagList.o : src/tagList/tagList.c
-	gcc -c src/tagList/tagList.c
+all: $(BIN)/$(EXECUTABLE)
+
+run: clean all
+	clear
+	./$(BIN)/$(EXECUTABLE)
+
+# $^ => all files (nanoml.c $(SRC)/**/*.c) 
+# $@ => target ($(BIN)/$(EXECUTABLE))
+
+$(BIN)/$(EXECUTABLE): nanoml.c $(SRC)/**/*.c
+	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
 
 clean:
-	rm -f *.o
-	rm -f nanoml
+	-rm $(BIN)/*
