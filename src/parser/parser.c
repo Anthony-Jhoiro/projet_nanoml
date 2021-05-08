@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createTexteParser();
+    t_parser parser = createTitreParser();
 
     tag *res = parser.execute(cursor);
 
@@ -106,26 +106,36 @@ int passerTag(reader cursor, char *strTag)
     return 1;
 }
 
+/**
+ * TODO handle errors && case empty tag
+ * 
+ */
 tagList unOuPlus(t_parser parser, reader cursor)
 {
     tagList list = EMPTY_LIST;
     char buffer[BUFFER_SIZE];
-    // TODO handle errors && case empty tag
+
+    // Fail if not a valid tag
     if (!readOpeningTag(cursor, buffer))
     {
         fprintf(stderr, "Error : invalid tag.");
         exit(2);
     }
 
+    // While the verify function return true, we use the parser
     while (parser.verify(buffer))
     {
         list = appendToList(list, parser.execute(cursor));
+
+        
         int readStatus = readOpeningTag(cursor, buffer);
         if (!readStatus)
         {
             fprintf(stderr, "Error : invalid tag.");
             exit(2);
         }
+
+        // If this is a closing tag or the end of the file return the list
         if (readStatus == 2 || cursor->currentChar == EOF)
         {
             return list;
