@@ -90,7 +90,7 @@ tagList unOuPlus(t_parser parser, reader cursor)
     }
 
     // While the verify function return true, we use the parser
-    while (parser.verify(currentTag))
+    while (parser.verify(cursor->currentTag))
     {
         list = appendToList(list, parser.execute(cursor));
 
@@ -115,7 +115,7 @@ tag *ou(reader cursor, t_parser *parsers, int nbParsers)
 {
     for (int i = 0; i < nbParsers; i++)
     {
-        if (parsers[i].verify(currentTag))
+        if (parsers[i].verify(cursor->currentTag))
         {
             return parsers[i].execute(cursor);
         }
@@ -146,7 +146,7 @@ int readOpeningTag(reader cursor)
 
     if (cursor->currentChar != '<')
     {
-        currentTag[0] = '\0';
+        cursor->currentTag[0] = '\0';
         return 1;
     }
     nextCharacter(cursor);
@@ -160,11 +160,11 @@ int readOpeningTag(reader cursor)
 
     while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
     {
-        currentTag[buffIndex] = cursor->currentChar;
+        cursor->currentTag[buffIndex] = cursor->currentChar;
         nextCharacter(cursor);
         buffIndex++;
     }
-    currentTag[buffIndex] = '\0';
+    cursor->currentTag[buffIndex] = '\0';
 
     readSpaces(cursor); 
     
@@ -189,13 +189,11 @@ int readClosingTag(reader cursor)
 
     while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
     {
-        currentTag[buffIndex] = cursor->currentChar;
+        cursor->currentTag[buffIndex] = cursor->currentChar;
         buffIndex++;
         nextCharacter(cursor);
     }
-    currentTag[buffIndex] = '\0';
-
-    
+    cursor->currentTag[buffIndex] = '\0'; 
 
     readSpaces(cursor);
     int status =  cursor->currentChar == '>';
