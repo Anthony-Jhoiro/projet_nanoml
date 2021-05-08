@@ -4,6 +4,8 @@
 #include "../tag/tag.h"
 #include <stdio.h>
 
+char currentTag[BUFFER_SIZE];
+
 typedef struct s_reader {
     FILE* file;
     char currentChar;
@@ -81,8 +83,16 @@ t_parser createMotSimpleParser();
 // Liste
 t_parser createListeParser();
 
+int verifyListe(char* tagName);
+
 // item
 t_parser createItemParser();
+
+// listeTexte
+t_parser createListeTexteParser();
+
+// texteListe
+t_parser createTexteListeParser();
 
 // Section
 t_parser createSectionParser();
@@ -115,8 +125,8 @@ tag* lireMotImportant(reader cursor);
 tag* lireMotEnrichi(reader cursor);
 
 
-int readOpeningTag(reader cursor, char* buff);
+int readOpeningTag(reader cursor);
 
-int readClosingTag(reader cursor, char* buff);
+int readClosingTag(reader cursor);
 
 #endif

@@ -15,8 +15,7 @@ tag *parseTitre(reader cursor)
 
     tag* texte = parserTexte.execute(cursor);
 
-    char closingTag[BUFFER_SIZE];
-    if ((!readClosingTag(cursor, closingTag)) || !verifyTitre(closingTag))
+    if ((!readClosingTag(cursor)) || !verifyTitre(currentTag))
     {
         fprintf(stderr, "Error : expected </titre>\n");
         exit(1);

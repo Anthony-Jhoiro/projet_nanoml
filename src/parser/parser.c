@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createTitreParser();
+    t_parser parser = createListeParser();
 
     tag *res = parser.execute(cursor);
 
@@ -18,7 +18,7 @@ void nextCharacter(reader cursor)
 {
 
     cursor->currentChar = fgetc(cursor->file);
-    printf("%c", cursor->currentChar);
+    printf("\e[0;34m%c\e[0;37m", cursor->currentChar);
 
     // if (cursor->currentChar == EOF)
     // {
@@ -56,39 +56,6 @@ void readSpaces(reader cursor)
     }
 }
 
-// tag* lireMotEnrichi(reader cursor) {
-
-//     t_parser mot_simple;
-//     mot_simple.execute = lireMotSimple;
-
-//     t_parser mot_important;
-//     mot_important.execute = lireMotImportant;
-
-//     t_parser parsers[2] = {mot_simple, mot_important};
-
-//     return ou(cursor,parsers, 2);
-// }
-
-// tag *readText(reader cursor)
-// {
-//     tag *t = createTag(t_texte);
-
-//     t_parser parserMotEnrichi;
-//     parserMotEnrichi.execute = lireMotEnrichi;
-
-//     t->children = unOuPlus(parserMotEnrichi, cursor);
-
-//     // tag *mot = lireMotSimple(cursor);
-
-//     // while (mot != NULL)
-//     // {
-//     //     addChild(t, mot);
-//     //     mot = lireMotSimple(cursor);
-//     // }
-
-//     return t;
-// }
-
 int passerTag(reader cursor, char *strTag)
 {
     readSpaces(cursor);
@@ -108,27 +75,26 @@ int passerTag(reader cursor, char *strTag)
 
 /**
  * TODO handle errors && case empty tag
+ * TODO : rename zero ou plus
  * 
  */
 tagList unOuPlus(t_parser parser, reader cursor)
 {
     tagList list = EMPTY_LIST;
-    char buffer[BUFFER_SIZE];
 
     // Fail if not a valid tag
-    if (!readOpeningTag(cursor, buffer))
+    if (!readOpeningTag(cursor))
     {
         fprintf(stderr, "Error : invalid tag.");
         exit(2);
     }
 
     // While the verify function return true, we use the parser
-    while (parser.verify(buffer))
+    while (parser.verify(currentTag))
     {
         list = appendToList(list, parser.execute(cursor));
 
-        
-        int readStatus = readOpeningTag(cursor, buffer);
+        int readStatus = readOpeningTag(cursor);
         if (!readStatus)
         {
             fprintf(stderr, "Error : invalid tag.");
@@ -147,8 +113,7 @@ tagList unOuPlus(t_parser parser, reader cursor)
 
 tag *ou(reader cursor, t_parser *parsers, int nbParsers)
 {
-    char buff[BUFFER_SIZE];
-    if (!readOpeningTag(cursor, buff))
+    if (!readOpeningTag(cursor))
     {
         fprintf(stderr, "Invalid tag");
         exit(3);
@@ -156,7 +121,7 @@ tag *ou(reader cursor, t_parser *parsers, int nbParsers)
 
     for (int i = 0; i < nbParsers; i++)
     {
-        if (parsers[i].verify(buff))
+        if (parsers[i].verify(currentTag))
         {
             return parsers[i].execute(cursor);
         }
@@ -181,13 +146,13 @@ int compareStr(char *str1, char *str2)
     return str2[cpt] == '\0';
 }
 
-int readOpeningTag(reader cursor, char *buff)
+int readOpeningTag(reader cursor)
 {
     readSpaces(cursor);
 
     if (cursor->currentChar != '<')
     {
-        buff[0] = '\0';
+        currentTag[0] = '\0';
         return 1;
     }
     nextCharacter(cursor);
@@ -201,11 +166,11 @@ int readOpeningTag(reader cursor, char *buff)
 
     while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
     {
-        buff[buffIndex] = cursor->currentChar;
+        currentTag[buffIndex] = cursor->currentChar;
         nextCharacter(cursor);
         buffIndex++;
     }
-    buff[buffIndex] = '\0';
+    currentTag[buffIndex] = '\0';
 
     readSpaces(cursor); 
     
@@ -216,7 +181,7 @@ int readOpeningTag(reader cursor, char *buff)
     return status;
 }
 
-int readClosingTag(reader cursor, char *buff)
+int readClosingTag(reader cursor)
 {
     readSpaces(cursor);
     int buffIndex = 0;
@@ -230,11 +195,11 @@ int readClosingTag(reader cursor, char *buff)
 
     while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
     {
-        buff[buffIndex] = cursor->currentChar;
+        currentTag[buffIndex] = cursor->currentChar;
         buffIndex++;
         nextCharacter(cursor);
     }
-    buff[buffIndex] = '\0';
+    currentTag[buffIndex] = '\0';
 
     
 

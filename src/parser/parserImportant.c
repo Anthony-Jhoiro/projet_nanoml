@@ -17,8 +17,7 @@ tag *parseImportant(reader cursor)
     tagList children = unOuPlus(motSimple, cursor);
 
     // If the closing tag do not match throw an error
-    char closingTag[BUFFER_SIZE];
-    if ((!readClosingTag(cursor, closingTag)) || !verifyImportant(closingTag))
+    if ((!readClosingTag(cursor)) || !verifyImportant(currentTag))
     {
         fprintf(stderr, "Error : expected </important>");
         exit(1);

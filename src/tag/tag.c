@@ -72,6 +72,14 @@ void printTagName(tagsNames name)
     {
         printf("enrichi>");
     }
+    else if (name == t_texte_liste)
+    {
+        printf("texte_liste>");
+    }
+    else if (name == t_liste_texte)
+    {
+        printf("liste_texte>");
+    }
 }
 
 void printTabs(int n)

@@ -6,11 +6,15 @@ int verifyTexte(char* _) {
 }
 
 tag* parseTexte(reader cursor) {
-    tag* texte = createTag(t_texte);
-
     t_parser p_motEnrichi = createMotEnrichiParser();
 
     tagList children = unOuPlus(p_motEnrichi, cursor);
+
+    if (children == EMPTY_LIST) {
+        return TAG_NULL;
+    }
+
+    tag* texte = createTag(t_texte);    
 
     texte->children = children;
 
