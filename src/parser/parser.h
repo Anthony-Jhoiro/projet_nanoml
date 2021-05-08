@@ -97,6 +97,16 @@ t_parser createTexteListeParser();
 // Section
 t_parser createSectionParser();
 
+int verifySection(char* _);
+
+// Contenu
+t_parser createContenuParser();
+
+// contenu unique
+t_parser createContenuUniqueParser();
+
+int verifyContenuUnique(char *tagName);
+
 // Mot simple
 t_parser createMotSimpleParser();
 
@@ -104,6 +114,8 @@ int verifyMotSimple(char* tagName);
 
 // Mot Enrichi
 t_parser createMotEnrichiParser();
+
+int verifyMotEnrichi(char* tagName);
 
 // retourLigne
 t_parser createRetourLigneParser();
@@ -115,6 +127,8 @@ t_parser createTexteParser();
 
 // titre
 t_parser createTitreParser();
+
+int verifyTitre(char *tagName);
 
 
 

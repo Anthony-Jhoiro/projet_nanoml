@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createListeParser();
+    t_parser parser = createContenuParser();
 
     tag *res = parser.execute(cursor);
 
@@ -113,12 +113,6 @@ tagList unOuPlus(t_parser parser, reader cursor)
 
 tag *ou(reader cursor, t_parser *parsers, int nbParsers)
 {
-    if (!readOpeningTag(cursor))
-    {
-        fprintf(stderr, "Invalid tag");
-        exit(3);
-    }
-
     for (int i = 0; i < nbParsers; i++)
     {
         if (parsers[i].verify(currentTag))

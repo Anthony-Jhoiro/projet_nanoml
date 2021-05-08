@@ -4,7 +4,8 @@ nanoml : parser.o nanoml.o tag.o tagList.o
 nanoml.o : nanoml.c 
 	gcc -c nanoml.c 
 
-parser.o : src/parser/parser.c src/parser/parserAnnexe.c src/parser/parserDocument.c src/parser/parserImportant.c src/parser/parserItem.c src/parser/parserListe.c src/parser/parserMotSimple.c src/parser/parserSection.c
+# TODO : update .c list
+parser.o : src/parser/parser.c src/parser/parserAnnexes.c src/parser/parserDocument.c src/parser/parserImportant.c src/parser/parserItem.c src/parser/parserListe.c src/parser/parserMotSimple.c src/parser/parserSection.c
 	gcc -c src/parser/*.c
 
 tag.o : src/tag/tag.c

@@ -1,12 +1,19 @@
-<item>Item 1</item><item>Item 2</item>
-<item>Item 3</item>
-<item>Item 4
-    <liste>
-        <item>poire</item>
-        <item>Banane</item>
-    </liste>
-    hello !
-</item>
-<item>Item 5</item>
+<section>
+    <liste><item>Item 1</item><item>Item 2</item>
+    <item>Item 3</item>
+    <item>Item 4
+        <liste>
+            <item>poire</item>
+            <item>Banane</item>
+        </liste>
+        hello !
+    </item>
+    <item>Item 5</item>
 
-</liste>
+    </liste>
+
+    <section>
+        <titre><important>Hello world</important> !</titre>
+    </section>
+
+</section>

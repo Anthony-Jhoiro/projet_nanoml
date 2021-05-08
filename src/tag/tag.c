@@ -80,6 +80,10 @@ void printTagName(tagsNames name)
     {
         printf("liste_texte>");
     }
+    else if (name == t_contenu)
+    {
+        printf(">");
+    }
 }
 
 void printTabs(int n)
