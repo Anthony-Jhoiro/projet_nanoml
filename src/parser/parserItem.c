@@ -17,17 +17,15 @@ tag *parseItem(reader cursor)
 
     tag *child = ou(cursor, parsers, nbParsers);
 
-    if (child == TAG_NULL)
-    {
-        fprintf(stderr, "\e[0;35mError: expected liste or texte.\e[0;37m");
-        exit(4);
-    }
-
-    readClosingTag(cursor);
-    assertCurrentTag(cursor, "item");
-
     tag *item = createTag(t_item);
+
     addChild(item, child);
+
+    if (child != TAG_NULL)
+    {
+        readClosingTag(cursor);
+        assertCurrentTag(cursor, "item");
+    }
     return item;
 }
 

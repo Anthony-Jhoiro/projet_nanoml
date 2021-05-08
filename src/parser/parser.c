@@ -78,7 +78,7 @@ int passerTag(reader cursor, char *strTag)
  * TODO : rename zero ou plus
  * 
  */
-tagList unOuPlus(t_parser parser, reader cursor)
+tagList zeroOuPlus(t_parser parser, reader cursor)
 {
     tagList list = EMPTY_LIST;
 
@@ -93,7 +93,7 @@ tagList unOuPlus(t_parser parser, reader cursor)
         int readStatus = readOpeningTag(cursor);
 
         // If this is a closing tag or the end of the file return the list
-        if (readStatus == 2 || cursor->currentChar == EOF)
+        if (readStatus == -1 || cursor->currentChar == EOF)
         {
             return list;
         }
@@ -131,9 +131,25 @@ int compareStr(char *str1, char *str2)
     return str2[cpt] == '\0';
 }
 
+/**
+ * Read a tag. If the tag is not valid throw an error and exit the process. If the second character of the tag is a '/' 
+ * this is a closing tag also we are returning -1 and we d not read the rest of the tag. If the tag is valid, its 
+ * text content is moved to cursor->currentTag.
+ * 
+ * Exemples :
+ * 
+ * * "<hello>" => return 1, cursor->currentTag = 'hello'
+ * * "</hello>" => return -1, cursor->currentTag keeps its previous value
+ * * "<hello $" => exit the process with error code 3.
+ * 
+ * :param cursor The cursor used to read the file. 
+ * 
+ */
 int readOpeningTag(reader cursor)
 {
     readSpaces(cursor);
+
+    int status;
 
     if (cursor->currentChar != '<')
     {
@@ -144,7 +160,7 @@ int readOpeningTag(reader cursor)
 
     if (cursor->currentChar == '/')
     {
-        return 2;
+        return -1;
     }
 
     int buffIndex = 0;
@@ -169,6 +185,9 @@ int readOpeningTag(reader cursor)
     exit(3);
 }
 
+/**
+ * Read a closing tag. If the tag is not valid throw an error and exit the process with status 2
+ */
 void readClosingTag(reader cursor)
 {
     readSpaces(cursor);
@@ -198,6 +217,10 @@ void readClosingTag(reader cursor)
     exit(2);
 }
 
+/**
+ * Assert that the cursor current tag name is equal to the given tagname. 
+ * If it fails exit the process with error code 1.
+ */
 void assertCurrentTag(reader cursor, char *tagName)
 {
     if (!compareStr(cursor->currentTag, tagName))

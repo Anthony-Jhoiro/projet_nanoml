@@ -57,7 +57,7 @@ tag* lireMotSimple(reader cursor);
  */
 tag* lireMotImportant(reader cursor);
 
-tagList unOuPlus(t_parser parser, reader cursor);
+tagList zeroOuPlus(t_parser parser, reader cursor);
 
 tag *ou(reader cursor, t_parser *parsers, int nbParsers);
 

@@ -10,7 +10,7 @@ tag* parseListe(reader cursor) {
 
     t_parser p_item = createItemParser();
 
-    tagList children = unOuPlus(p_item, cursor);
+    tagList children = zeroOuPlus(p_item, cursor);
 
 
     readClosingTag(cursor);

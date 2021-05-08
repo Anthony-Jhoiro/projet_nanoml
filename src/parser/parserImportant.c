@@ -6,15 +6,13 @@ int verifyImportant(char *tagName)
     return compareStr(tagName, importantTag);
 }
 
-
-
 tag *parseImportant(reader cursor)
 {
     // Create Mot simple parser structure
     t_parser motSimple = createMotSimpleParser();
 
     // Read words
-    tagList children = unOuPlus(motSimple, cursor);
+    tagList children = zeroOuPlus(motSimple, cursor);
 
     // If the closing tag do not match throw an error
     readClosingTag(cursor);

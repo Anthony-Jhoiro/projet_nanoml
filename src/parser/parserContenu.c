@@ -11,7 +11,7 @@ tag *parseContenu(reader cursor)
 { 
     t_parser p_contenuUnique = createContenuUniqueParser();
 
-    tagList children = unOuPlus(p_contenuUnique, cursor);
+    tagList children = zeroOuPlus(p_contenuUnique, cursor);
 
     tag* contenuTag = createTag(t_contenu);
     contenuTag->children = children;

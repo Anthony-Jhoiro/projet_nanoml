@@ -8,7 +8,7 @@ int verifyTexte(char* _) {
 tag* parseTexte(reader cursor) {
     t_parser p_motEnrichi = createMotEnrichiParser();
 
-    tagList children = unOuPlus(p_motEnrichi, cursor);
+    tagList children = zeroOuPlus(p_motEnrichi, cursor);
 
     if (children == EMPTY_LIST) {
         return TAG_NULL;
