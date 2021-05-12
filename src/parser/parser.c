@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createContenuParser();
+    t_parser parser = createTexteEnrichiParser();
 
     tag *res = parser.execute(cursor);
 

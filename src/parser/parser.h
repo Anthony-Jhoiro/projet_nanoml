@@ -66,12 +66,20 @@ int compareStr(char* str1, char* str2);
 
 
 //----------- parser pour chaque tag ------------------
+// Texte enrichi
+t_parser createTexteEnrichiParser();
 
 // Document
 t_parser createDocumentParser();
 
 // Annexes
-t_parser createAnnexeParser();
+t_parser createAnnexesParser();
+
+// Annexe unitaire
+t_parser createAnnexeUnitaireParser();
+
+int verifyAnnexeUnitaire(char* tagName);
+
 
 // Mot important
 t_parser createImportantParser();

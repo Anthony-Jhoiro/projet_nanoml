@@ -90,6 +90,18 @@ void printTagName(tagsNames name)
     {
         printf("liste_texte");
     }
+    else if (name == t_document)
+    {
+        printf("document");
+    }
+    else if (name == t_annexes)
+    {
+        printf("annexes");
+    }
+    else if (name == t_annexe)
+    {
+        printf("annexe");
+    }
 }
 
 void printTabs(int n)

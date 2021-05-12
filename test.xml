@@ -1,25 +1,13 @@
-<section>
-    <liste>
-        <item>Item 1</item>
-        <item>Item 2</item>
-        <item>Item 3</item>
-        <item>
-            Item 4
-            <liste>
-                <item>poire</item>
-                <item>Banane</item>
-            </liste>
-            hello !
-        </item>
-        <item>Item 5</item>
-
-    </liste>
-
+<document>
     <section>
-        <titre>
-            <important>Hello world</important>
-            !
-        </titre>
+        <titre> Sujet de projet Nanoml </titre>
     </section>
-
-</section>
+</document>
+<annexe>
+    Auteur : Weinberg Benjamin
+    <br/>
+    Relecteur : Jacques Julie
+    <br/>
+    Relecteur : Gouvy Nicolas
+    <br/>
+</annexe>
