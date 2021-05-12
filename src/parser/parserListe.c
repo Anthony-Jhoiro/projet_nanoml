@@ -16,9 +16,7 @@ tag* parseListe(reader cursor) {
     readClosingTag(cursor);
     assertCurrentTag(cursor, "liste");
 
-    tag* liste = createTag(t_liste);
-
-    liste->children = children;
+    tag* liste = createTagWithChildren(t_liste, children);
 
     return liste;
 }

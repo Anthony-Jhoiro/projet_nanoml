@@ -10,6 +10,16 @@ tag *createTag(tagsNames name)
 }
 
 /**
+ * TODO : comment
+ */
+tag *createTagWithChildren(tagsNames name, tagList children)
+{
+    tag* t = createTag(name);
+    t->children = children;
+    return t;
+}
+
+/**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see tagsNames)
  * \param content The content of the tag
@@ -108,9 +118,9 @@ void printTagAux(tag *element, int decalage)
     }
     else
     {
-        printf("\e[0;31m<");
+        printf("<\e[1;35m");
         printTagName(element->tagName);
-        printf(">\e[0;37m");
+        printf("\e[0;37m>");
         printf("\n");
 
         if (element->children == EMPTY_LIST)
@@ -125,9 +135,9 @@ void printTagAux(tag *element, int decalage)
         }
         printTabs(decalage);
 
-        printf("\e[0;31m</");
+        printf("</\e[1;35m");
         printTagName(element->tagName);
-        printf(">\e[0;37m");
+        printf("\e[0;37m>");
         printf("\n");
     }
 }

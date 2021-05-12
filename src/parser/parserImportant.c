@@ -19,9 +19,7 @@ tag *parseImportant(reader cursor)
     assertCurrentTag(cursor, "important");
 
     // Create tag
-    tag *importantTag = createTag(t_mot_important);
-
-    importantTag->children = children;
+    tag *importantTag = createTagWithChildren(t_mot_important, children);
 
     // return the tag
     return importantTag;

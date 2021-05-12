@@ -15,7 +15,7 @@ run: clean all
 	clear
 	./$(BIN)/$(EXECUTABLE)
 
-# $^ => all files (nanoml.c $(SRC)/**/*.c) 
+# $^ => all files (nanoml.c & $(SRC)/**/*.c) 
 # $@ => target ($(BIN)/$(EXECUTABLE))
 
 $(BIN)/$(EXECUTABLE): nanoml.c $(SRC)/**/*.c

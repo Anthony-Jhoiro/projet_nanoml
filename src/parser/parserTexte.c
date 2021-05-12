@@ -14,9 +14,7 @@ tag* parseTexte(reader cursor) {
         return TAG_NULL;
     }
 
-    tag* texte = createTag(t_texte);
-
-    texte->children = children;
+    tag* texte = createTagWithChildren(t_texte, children);
 
     return texte;
 }
