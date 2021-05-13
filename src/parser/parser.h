@@ -24,7 +24,7 @@ void assertCurrentTag(reader cursor, char* tagName);
 
 void nextCharacter(reader cursor);
 
-void parser(char* filename);
+tag* parser(char* filename);
 
 reader createReader(char* filename);
 

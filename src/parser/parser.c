@@ -1,6 +1,6 @@
 #include "parser.h"
 
-void parser(char *filename)
+tag* parser(char *filename)
 {
     reader cursor = createReader(filename);
 
@@ -8,10 +8,9 @@ void parser(char *filename)
 
     tag *res = parser.execute(cursor);
 
-    printf("\n\n");
-    printTag(res);
-
     fclose(cursor->file);
+
+    return res;
 }
 
 void nextCharacter(reader cursor)
