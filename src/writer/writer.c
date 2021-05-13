@@ -15,8 +15,14 @@ int strLength(char *word)
     return i;
 }
 
-void printRow(int length)
+int getMaxContentLength(a_document doc)
 {
+    return LINE_SIZE - doc->prefixLength - doc->suffixLength - doc->contentLength;
+}
+
+void printRow(a_document doc)
+{
+    int length = getMaxContentLength(doc);
     if (length < 2)
     {
         fprintf(stderr, "Error: Row to short");
@@ -27,6 +33,8 @@ void printRow(int length)
         printf("-");
     }
     printf("+");
+
+    doc->contentLength = length;
 }
 
 void printSpaces(int length)
@@ -76,11 +84,6 @@ a_document initDoc()
     doc->suffixLength = 0;
     doc->contentLength = 0;
     return doc;
-}
-
-int getMaxContentLength(a_document doc)
-{
-    return LINE_SIZE - doc->prefixLength - doc->suffixLength - doc->contentLength;
 }
 
 void appendPrefix(a_document doc, char *newPrefix)
@@ -244,7 +247,7 @@ void writeContenu(a_document doc, tag *t)
         }
         else if (name == t_section)
         {
-            // TODO : implement
+            writeSection(doc, child->element);
         }
         else if (name == t_titre)
         {
@@ -259,14 +262,14 @@ void writeContenu(a_document doc, tag *t)
     }
 }
 
-void writeDocument(a_document doc, tag *t)
-{
+void writeSection(a_document doc, tag *t) {
     a_state previousState = saveState(doc);
-
-    printRow(getMaxContentLength(doc));
-    appendPrefix(doc, "|");
-    appendSuffix(doc, "|");
     fillRow(doc);
+
+    printRow(doc);
+    appendPrefix(doc, "|");
+    fillRow(doc);
+    appendSuffix(doc, "|");
 
     tag *childContenu = t->children->element;
 
@@ -274,8 +277,31 @@ void writeDocument(a_document doc, tag *t)
 
     fillRowNoPrefix(doc);
     loadState(previousState, doc);
+    printPrefix(doc);
 
-    printRow(getMaxContentLength(doc));
+    printRow(doc);
+}
+
+
+
+void writeDocument(a_document doc, tag *t)
+{
+    a_state previousState = saveState(doc);
+
+    printRow(doc);
+    appendPrefix(doc, "|");
+    fillRow(doc);
+    appendSuffix(doc, "|");
+
+    tag *childContenu = t->children->element;
+
+    writeContenu(doc, childContenu);
+
+    fillRowNoPrefix(doc);
+    loadState(previousState, doc);
+    printPrefix(doc);
+
+    printRow(doc);
 }
 
 void writeTexteEnrichi(a_document doc, tag *t)

@@ -33,6 +33,9 @@ void loadState(a_state state, a_document doc);
 
 void writeTexteEnrichi(a_document doc, tag *t);
 
+void writeContenu(a_document doc, tag *t);
+void writeSection(a_document doc, tag *t);
+
 a_document initDoc();
 
 #endif

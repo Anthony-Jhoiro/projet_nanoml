@@ -1,4 +1,11 @@
 <document>
-    <titre>Coucou c'est moi !</titre>
-    Hello world !
+    <titre> Sujet de projet Nanoml </titre>
+    <section>
+        <titre> Grammaire </titre>
+        inspiree par la forme BN.
+
+    </section>
+    <section>
+        <titre> Demarche du projet </titre>
+    </section>
 </document>
