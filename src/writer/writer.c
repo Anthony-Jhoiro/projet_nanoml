@@ -105,7 +105,19 @@ void appendSuffix(a_document doc, char *newSuffix)
     }
 }
 
-void writeMotSimple(a_document doc, tag *t)
+void printUpperCase(char* word) {
+
+    for (int i = 0; word[i] != '\0'; i++) {
+        char c = word[i];
+        if ('a' <= c && c <= 'z') {
+            printf("%c", c + ('A' - 'a'));
+        } else {
+            printf("%c", c);
+        }
+    }    
+}
+
+void writeMotSimple(a_document doc, tag *t, int upperCase)
 {
     char *word = t->content;
 
@@ -123,7 +135,11 @@ void writeMotSimple(a_document doc, tag *t)
             exit(11);
         }
     }
-    printf("%s", word);
+    if (upperCase) {
+        printUpperCase(word);
+    } else {
+        printf("%s", word);
+    }
     doc->contentLength += wordLength;
     if (wordLength != maxLength)
     {
@@ -132,14 +148,88 @@ void writeMotSimple(a_document doc, tag *t)
     }
 }
 
-void writeMotEnrichi(a_document doc, tag *t)
+
+
+void writeMotImportant(a_document doc, tag *t, int upperCase)
+{
+    char *word = t->content;
+
+    int maxLength = getMaxContentLength(doc);
+
+    int wordLength = strLength(word) + 2;
+
+    if (wordLength > maxLength)
+    {
+        fillRow(doc);
+        int maxLength = getMaxContentLength(doc);
+        if (wordLength > maxLength)
+        {
+            fprintf(stderr, "Error: Can not write word [\"%s\"]", word);
+            exit(11);
+        }
+    }
+    printf("\"");
+    if (upperCase) {
+        printUpperCase(word);
+    } else {
+        printf("%s", word);
+    }
+    printf("\"");
+
+    doc->contentLength += wordLength;
+    if (wordLength != maxLength)
+    {
+        printf(" ");
+        doc->contentLength++;
+    }
+}
+
+void writeMotEnrichi(a_document doc, tag *t, int upperCase)
 {
     tag *child = t->children->element;
 
-    if (child->tagName == t_mot_simple)
+    tagsNames tagName = child->tagName;
+
+    switch (tagName)
     {
-        writeMotSimple(doc, child);
+    case t_mot_simple:
+        writeMotSimple(doc, child, upperCase);
+        break;
+    
+    case t_mot_important:
+        writeMotImportant(doc, child, upperCase);
+        break;
+    
+    case t_retour_ligne:
+        fillRow(doc);
+        break;
+    
+    
+    default:
+        break;
     }
+}
+
+void writeTexte(a_document doc, tag *t, int upperCase) {
+    item* child = t->children;
+
+    while (child != EMPTY_LIST)
+    {
+        writeMotEnrichi(doc, child->element, upperCase);
+        child = child->next;
+    }
+}
+
+void writeTitre(a_document doc, tag *t)
+{
+    item* child = t->children;
+
+    if (child != EMPTY_LIST)
+    {
+        writeTexte(doc, child->element, 1);
+    }
+
+    fillRow(doc);
 }
 
 void writeContenu(a_document doc, tag *t)
@@ -150,7 +240,7 @@ void writeContenu(a_document doc, tag *t)
         tagsNames name = child->element->tagName;
         if (name == t_mot_enrichi)
         {
-            writeMotEnrichi(doc, child->element);
+            writeMotEnrichi(doc, child->element, 0);
         }
         else if (name == t_section)
         {
@@ -158,7 +248,7 @@ void writeContenu(a_document doc, tag *t)
         }
         else if (name == t_titre)
         {
-            // TODO : implement
+            writeTitre(doc, child->element);
         }
         else if (name == t_liste)
         {
