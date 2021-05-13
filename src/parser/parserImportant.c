@@ -6,27 +6,20 @@ int verifyImportant(char *tagName)
     return compareStr(tagName, importantTag);
 }
 
-
-
 tag *parseImportant(reader cursor)
 {
     // Create Mot simple parser structure
     t_parser motSimple = createMotSimpleParser();
 
     // Read words
-    tagList children = unOuPlus(motSimple, cursor);
+    tagList children = zeroOuPlus(motSimple, cursor);
 
     // If the closing tag do not match throw an error
-    if ((!readClosingTag(cursor)) || !verifyImportant(cursor->currentTag))
-    {
-        fprintf(stderr, "Error : expected </important>");
-        exit(1);
-    }
+    readClosingTag(cursor);
+    assertCurrentTag(cursor, "important");
 
     // Create tag
-    tag *importantTag = createTag(t_mot_important);
-
-    importantTag->children = children;
+    tag *importantTag = createTagWithChildren(t_mot_important, children);
 
     // return the tag
     return importantTag;

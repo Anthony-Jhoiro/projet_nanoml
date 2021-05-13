@@ -10,6 +10,16 @@ tag *createTag(tagsNames name)
 }
 
 /**
+ * TODO : comment
+ */
+tag *createTagWithChildren(tagsNames name, tagList children)
+{
+    tag* t = createTag(name);
+    t->children = children;
+    return t;
+}
+
+/**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see tagsNames)
  * \param content The content of the tag
@@ -34,55 +44,63 @@ void printTagName(tagsNames name)
 {
     if (name == t_document)
     {
-        printf("document>");
+        printf("document");
     }
     else if (name == t_annexes)
     {
-        printf("annexe>");
+        printf("annexe");
     }
     else if (name == t_section)
     {
-        printf("section>");
+        printf("section");
     }
     else if (name == t_titre)
     {
-        printf("titre>");
+        printf("titre");
     }
     else if (name == t_liste)
     {
-        printf("liste>");
+        printf("liste");
     }
     else if (name == t_item)
     {
-        printf("item>");
+        printf("item");
     }
     else if (name == t_mot_important)
     {
-        printf("important>");
+        printf("important");
     }
     else if (name == t_retour_ligne)
     {
-        printf("br/>");
+        printf("br/");
     }
     else if (name == t_texte)
     {
-        printf("texte>");
+        printf("texte");
     }
     else if (name == t_mot_enrichi)
     {
-        printf("enrichi>");
+        printf("enrichi");
     }
     else if (name == t_texte_liste)
     {
-        printf("texte_liste>");
+        printf("texte_liste");
     }
     else if (name == t_liste_texte)
     {
-        printf("liste_texte>");
+        printf("liste_texte");
     }
-    else if (name == t_contenu)
+    else if (name == t_document)
     {
-        printf(">");
+        printf("document");
+    }
+    else if (name == t_annexes)
+    {
+        printf("annexes");
+    }
+    else if (name == t_annexe)
+    {
+        printf("annexe");
     }
 }
 
@@ -108,12 +126,13 @@ void printTagAux(tag *element, int decalage)
     }
     else if (element->tagName == t_retour_ligne)
     {
-        printf("<br/>\n");
+        printf("\e[0;33m<br/>\e[0;37m\n");
     }
     else
     {
-        printf("<");
+        printf("<\e[1;35m");
         printTagName(element->tagName);
+        printf("\e[0;37m>");
         printf("\n");
 
         if (element->children == EMPTY_LIST)
@@ -128,8 +147,9 @@ void printTagAux(tag *element, int decalage)
         }
         printTabs(decalage);
 
-        printf("</");
+        printf("</\e[1;35m");
         printTagName(element->tagName);
+        printf("\e[0;37m>");
         printf("\n");
     }
 }

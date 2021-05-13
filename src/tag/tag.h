@@ -13,6 +13,8 @@
  */
 tag *createTag(tagsNames name);
 
+tag *createTagWithChildren(tagsNames name, tagList children);
+
 /**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see tagsNames)

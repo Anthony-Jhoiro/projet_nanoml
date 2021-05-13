@@ -25,6 +25,7 @@ typedef enum e_tags
 { // TODO : do something
     t_texte_enrichi,
     t_document,
+    t_annexe,
     t_annexes,
     t_contenu,
     t_section,

@@ -4,7 +4,7 @@ void parser(char *filename)
 {
     reader cursor = createReader(filename);
 
-    t_parser parser = createContenuParser();
+    t_parser parser = createTexteEnrichiParser();
 
     tag *res = parser.execute(cursor);
 
@@ -78,16 +78,12 @@ int passerTag(reader cursor, char *strTag)
  * TODO : rename zero ou plus
  * 
  */
-tagList unOuPlus(t_parser parser, reader cursor)
+tagList zeroOuPlus(t_parser parser, reader cursor)
 {
     tagList list = EMPTY_LIST;
 
     // Fail if not a valid tag
-    if (!readOpeningTag(cursor))
-    {
-        fprintf(stderr, "Error : invalid tag.");
-        exit(2);
-    }
+    readOpeningTag(cursor);
 
     // While the verify function return true, we use the parser
     while (parser.verify(cursor->currentTag))
@@ -95,14 +91,9 @@ tagList unOuPlus(t_parser parser, reader cursor)
         list = appendToList(list, parser.execute(cursor));
 
         int readStatus = readOpeningTag(cursor);
-        if (!readStatus)
-        {
-            fprintf(stderr, "Error : invalid tag.");
-            exit(2);
-        }
 
         // If this is a closing tag or the end of the file return the list
-        if (readStatus == 2 || cursor->currentChar == EOF)
+        if (readStatus == -1 || cursor->currentChar == EOF)
         {
             return list;
         }
@@ -140,9 +131,25 @@ int compareStr(char *str1, char *str2)
     return str2[cpt] == '\0';
 }
 
+/**
+ * Read a tag. If the tag is not valid throw an error and exit the process. If the second character of the tag is a '/' 
+ * this is a closing tag also we are returning -1 and we d not read the rest of the tag. If the tag is valid, its 
+ * text content is moved to cursor->currentTag.
+ * 
+ * Exemples :
+ * 
+ * * "<hello>" => return 1, cursor->currentTag = 'hello'
+ * * "</hello>" => return -1, cursor->currentTag keeps its previous value
+ * * "<hello $" => exit the process with error code 3.
+ * 
+ * :param cursor The cursor used to read the file. 
+ * 
+ */
 int readOpeningTag(reader cursor)
 {
     readSpaces(cursor);
+
+    int status;
 
     if (cursor->currentChar != '<')
     {
@@ -153,7 +160,7 @@ int readOpeningTag(reader cursor)
 
     if (cursor->currentChar == '/')
     {
-        return 2;
+        return -1;
     }
 
     int buffIndex = 0;
@@ -166,40 +173,59 @@ int readOpeningTag(reader cursor)
     }
     cursor->currentTag[buffIndex] = '\0';
 
-    readSpaces(cursor); 
-    
-    int status = cursor->currentChar == '>';
+    readSpaces(cursor);
 
-    nextCharacter(cursor);
+    if (cursor->currentChar == '>')
+    {
+        nextCharacter(cursor);
+        return 1;
+    }
 
-    return status;
+    fprintf(stderr, "\n\e[0;35mError: Invalid tag\e[0;37m\n");
+    exit(3);
 }
 
-int readClosingTag(reader cursor)
+/**
+ * Read a closing tag. If the tag is not valid throw an error and exit the process with status 2
+ */
+void readClosingTag(reader cursor)
 {
     readSpaces(cursor);
     int buffIndex = 0;
 
-    if (cursor->currentChar != '/')
+    if (cursor->currentChar == '/')
     {
-        return 0;
-    }
-
-    nextCharacter(cursor);
-
-    while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
-    {
-        cursor->currentTag[buffIndex] = cursor->currentChar;
-        buffIndex++;
         nextCharacter(cursor);
-    }
-    cursor->currentTag[buffIndex] = '\0'; 
 
-    readSpaces(cursor);
-    int status =  cursor->currentChar == '>';
-    
-    // We read one last character to start the next read at 
-    // the begining of the next grammar item
-    nextCharacter(cursor);    
-    return status;
+        while (cursor->currentChar != '>' && !estEspace(cursor->currentChar))
+        {
+            cursor->currentTag[buffIndex] = cursor->currentChar;
+            buffIndex++;
+            nextCharacter(cursor);
+        }
+        cursor->currentTag[buffIndex] = '\0';
+
+        readSpaces(cursor);
+        if (cursor->currentChar == '>')
+        {
+            nextCharacter(cursor);
+            return;
+        }
+    }
+
+    fprintf(stderr, "\n\e[0;35mError: Invalid closing tag\e[0;37m\n");
+    exit(2);
+}
+
+/**
+ * Assert that the cursor current tag name is equal to the given tagname. 
+ * If it fails exit the process with error code 1.
+ */
+void assertCurrentTag(reader cursor, char *tagName)
+{
+    if (!compareStr(cursor->currentTag, tagName))
+    {
+        fprintf(stderr, "\n\e[0;35mError: expecting \"%s\", got [%s]\e[0;37m\n", tagName, cursor->currentTag);
+        exit(1);
+    }
 }

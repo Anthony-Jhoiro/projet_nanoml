@@ -17,31 +17,15 @@ tag *parseItem(reader cursor)
 
     tag *child = ou(cursor, parsers, nbParsers);
 
-    // tag *child;
-
-    // child = p_listeTexte.execute(cursor);
-
-    // if (child == TAG_NULL)
-    // {
-    //     printf("Parse texte");
-    //     t_parser p_texteListe = createTexteListeParser();
-    //     child = p_texteListe.execute(cursor);
-    // }
-
-    if (child == TAG_NULL)
-    {
-        fprintf(stderr, "Error, expected liste or texte.");
-        exit(4);
-    }
-
-    if ((!readClosingTag(cursor)) || !verifyItem(cursor->currentTag))
-    {
-        fprintf(stderr, "Error : expected </item>");
-        exit(1);
-    }
-
     tag *item = createTag(t_item);
+
     addChild(item, child);
+
+    if (child != TAG_NULL)
+    {
+        readClosingTag(cursor);
+        assertCurrentTag(cursor, "item");
+    }
     return item;
 }
 

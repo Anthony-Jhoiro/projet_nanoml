@@ -2,6 +2,6 @@
 
 int main(int argc, char const *argv[])
 {
-    parser("test.txt");
+    parser("test.xml");
     return 0;
 }
