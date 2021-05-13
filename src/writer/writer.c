@@ -108,16 +108,21 @@ void appendSuffix(a_document doc, char *newSuffix)
     }
 }
 
-void printUpperCase(char* word) {
+void printUpperCase(char *word)
+{
 
-    for (int i = 0; word[i] != '\0'; i++) {
+    for (int i = 0; word[i] != '\0'; i++)
+    {
         char c = word[i];
-        if ('a' <= c && c <= 'z') {
+        if ('a' <= c && c <= 'z')
+        {
             printf("%c", c + ('A' - 'a'));
-        } else {
+        }
+        else
+        {
             printf("%c", c);
         }
-    }    
+    }
 }
 
 void writeMotSimple(a_document doc, tag *t, int upperCase)
@@ -138,9 +143,12 @@ void writeMotSimple(a_document doc, tag *t, int upperCase)
             exit(11);
         }
     }
-    if (upperCase) {
+    if (upperCase)
+    {
         printUpperCase(word);
-    } else {
+    }
+    else
+    {
         printf("%s", word);
     }
     doc->contentLength += wordLength;
@@ -150,8 +158,6 @@ void writeMotSimple(a_document doc, tag *t, int upperCase)
         doc->contentLength++;
     }
 }
-
-
 
 void writeMotImportant(a_document doc, tag *t, int upperCase)
 {
@@ -172,9 +178,12 @@ void writeMotImportant(a_document doc, tag *t, int upperCase)
         }
     }
     printf("\"");
-    if (upperCase) {
+    if (upperCase)
+    {
         printUpperCase(word);
-    } else {
+    }
+    else
+    {
         printf("%s", word);
     }
     printf("\"");
@@ -198,23 +207,23 @@ void writeMotEnrichi(a_document doc, tag *t, int upperCase)
     case t_mot_simple:
         writeMotSimple(doc, child, upperCase);
         break;
-    
+
     case t_mot_important:
         writeMotImportant(doc, child, upperCase);
         break;
-    
+
     case t_retour_ligne:
         fillRow(doc);
         break;
-    
-    
+
     default:
         break;
     }
 }
 
-void writeTexte(a_document doc, tag *t, int upperCase) {
-    item* child = t->children;
+void writeTexte(a_document doc, tag *t, int upperCase)
+{
+    item *child = t->children;
 
     while (child != EMPTY_LIST)
     {
@@ -225,7 +234,7 @@ void writeTexte(a_document doc, tag *t, int upperCase) {
 
 void writeTitre(a_document doc, tag *t)
 {
-    item* child = t->children;
+    item *child = t->children;
 
     if (child != EMPTY_LIST)
     {
@@ -233,6 +242,67 @@ void writeTitre(a_document doc, tag *t)
     }
 
     fillRow(doc);
+}
+
+void writeListeTexte(a_document doc, tag *t)
+{
+    item *childTexte = t->children;
+
+    writeListe(doc, childTexte->element);
+
+    if (childTexte->next != EMPTY_LIST)
+    {
+        writeTexteListe(doc, childTexte->next->element);
+    }
+}
+
+void writeTexteListe(a_document doc, tag *t)
+{
+    item *childTexte = t->children;
+
+    writeTexte(doc, childTexte->element, 0);
+
+    if (childTexte->next != EMPTY_LIST)
+    {
+        writeListeTexte(doc, childTexte->next->element);
+    }
+}
+
+void writeItem(a_document doc, tag *t)
+{
+    tag *child = t->children->element;
+    a_state previousState = saveState(doc);
+
+    printf("  #  ");
+    doc->contentLength += 3;
+    appendPrefix(doc, "  ");
+
+    if (child->tagName == t_texte_liste)
+    {
+        writeTexteListe(doc, child);
+    } else {
+        writeListeTexte(doc, child);
+    }
+
+    fillRowNoPrefix(doc);
+    loadState(previousState, doc);
+    printPrefix(doc);
+}
+
+void writeListe(a_document doc, tag *t)
+{
+    item *child = t->children;
+    
+    fillRow(doc);
+
+    while (child != EMPTY_LIST)
+    {
+        if (child->element->tagName == t_item)
+        {
+            writeItem(doc, child->element);
+        }
+        child = child->next;
+    }
 }
 
 void writeContenu(a_document doc, tag *t)
@@ -255,14 +325,15 @@ void writeContenu(a_document doc, tag *t)
         }
         else if (name == t_liste)
         {
-            // TODO : implement
+        writeListe(doc, child->element);
         }
 
         child = child->next;
     }
 }
 
-void writeSection(a_document doc, tag *t) {
+void writeSection(a_document doc, tag *t)
+{
     a_state previousState = saveState(doc);
     fillRow(doc);
 
@@ -281,8 +352,6 @@ void writeSection(a_document doc, tag *t) {
 
     printRow(doc);
 }
-
-
 
 void writeDocument(a_document doc, tag *t)
 {

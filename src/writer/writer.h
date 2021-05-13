@@ -36,6 +36,10 @@ void writeTexteEnrichi(a_document doc, tag *t);
 void writeContenu(a_document doc, tag *t);
 void writeSection(a_document doc, tag *t);
 
+void writeListeTexte(a_document doc, tag *t);
+void writeTexteListe(a_document doc, tag *t);
+void writeListe(a_document doc, tag *t);
+
 a_document initDoc();
 
 #endif

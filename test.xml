@@ -3,9 +3,44 @@
     <section>
         <titre> Grammaire </titre>
         inspiree par la forme BN.
-
+        <liste>
+            <item> texte_enrichi ::= document annexes </item>
+            <item> document  ::= 'debut_doc' contenu 'fin_doc' </item>
+            <item> annexes ::= { 'debut_annexe' contenu 'fin_annexe' } bbb bbb bbb bbb bbb bbb bb bbb bbb bbb bbb bbb bb  </item>
+            <item> ... </item>
+        </liste>
     </section>
     <section>
         <titre> Demarche du projet </titre>
+        <liste>
+            <item>
+                Ecrire une permiere version de l'analyseur gerant les balises
+                <liste>
+                    <item> document </item>
+                    <item> annexe </item>
+                    <item> section </item>
+                    <item> et le texte </item>
+                </liste>
+            </item>
+            <item>
+                Decorer l'analyseur pour que l'arbre N-aire soit creer
+                <liste>
+                    <item> Ajouter les parametres necessaire aux fonctions </item>
+                    <item> Manipuler les noeuds de l'arbre </item>
+                    <item> reprendre le programme pour qu'il soit maintenable/reutilisable </item>
+                    <item>
+                        reutiliser le travail sur les arbres
+
+                    </item>
+                </liste>
+            </item>
+            <item>
+                Afficher l'arbre N-aire
+            </item>
+            <item>
+                Ajouter ce qui manque
+            </item>
+            <item> Envisager des extensions </item>
+        </liste>
     </section>
 </document>
