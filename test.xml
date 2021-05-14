@@ -44,3 +44,28 @@
         </liste>
     </section>
 </document>
+<annexe>
+    <titre> Contacts </titre>
+    Auteur : Weinberg Benjamin
+    <br/>
+    Relecteur : Jacques Julie
+    <br/>
+    Relecteur : Gouvy Nicolas
+    <br/>
+</annexe>
+
+<annexe>
+    <section>
+        <titre> Nota Bene </titre>
+        Dans un premiere version, on ne pourra pas voir apparaitre dans un rendu les element syntaxique necessaire a la structuration du document.En effet pour realiser ceci, il faudrait que l'analyseur puisse distinguer entre une balise qui structrele document etune balise que doit apparaitre comme du texte.Ceci pourrait etre realiser en affinant l'analyseur, notamment en ajoutant des caracteres d'evitement.
+    </section>
+    <section>
+        <titre> Liste non exhaustive d'amelioration </titre>
+        <liste>
+            <item> affiner l'analyseur pour que les balises se decoupe en 3 parties : les chevrons ouvrant et fermant et le nom de l'element; </item>
+            <item> ajouter un moyen de faire un echappement pour qu'un texte puisse contenir le texte d'une balise;</item>
+            <item> gerer une numerotation des titres en fonction de la hierachie des sections; </item>
+            <item> ajouter des balises. </item>
+        </liste>
+    </section>
+</annexe>

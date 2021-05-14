@@ -8,12 +8,6 @@ int verifyAnnexeUnitaire(char* tagName) {
 tag* parseAnnexeUnitaire(reader cursor) {
     t_parser p_contenu = createContenuParser();
 
-    readOpeningTag(cursor);
-    if (!p_contenu.verify(cursor->currentTag)) {
-        fprintf(stderr, "Error: Empty annexe.");
-        exit(4);
-    }
-
     tag* child = p_contenu.execute(cursor);   
 
     // Verify closing tag

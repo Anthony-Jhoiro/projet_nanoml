@@ -46,10 +46,6 @@ void printTagName(tagsNames name)
     {
         printf("document");
     }
-    else if (name == t_annexes)
-    {
-        printf("annexe");
-    }
     else if (name == t_section)
     {
         printf("section");

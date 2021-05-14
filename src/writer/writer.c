@@ -280,7 +280,9 @@ void writeItem(a_document doc, tag *t)
     if (child->tagName == t_texte_liste)
     {
         writeTexteListe(doc, child);
-    } else {
+    }
+    else
+    {
         writeListeTexte(doc, child);
     }
 
@@ -292,7 +294,7 @@ void writeItem(a_document doc, tag *t)
 void writeListe(a_document doc, tag *t)
 {
     item *child = t->children;
-    
+
     fillRow(doc);
 
     while (child != EMPTY_LIST)
@@ -325,7 +327,7 @@ void writeContenu(a_document doc, tag *t)
         }
         else if (name == t_liste)
         {
-        writeListe(doc, child->element);
+            writeListe(doc, child->element);
         }
 
         child = child->next;
@@ -373,9 +375,49 @@ void writeDocument(a_document doc, tag *t)
     printRow(doc);
 }
 
+void writeAnnexe(a_document doc, tag *t)
+{
+    a_state previousState = saveState(doc);
+
+    printRow(doc);
+    appendPrefix(doc, "|");
+    fillRow(doc);
+    appendSuffix(doc, "|");
+
+    tag *childContenu = t->children->element;
+
+    writeContenu(doc, childContenu);
+
+    fillRowNoPrefix(doc);
+    loadState(previousState, doc);
+    printPrefix(doc);
+
+    printRow(doc);
+}
+
+void writeAnnexes(a_document doc, tag *t)
+{
+
+    for (item *annexeItem = t->children; annexeItem != EMPTY_LIST; annexeItem = annexeItem->next)
+        {
+            fillRow(doc);
+
+            tag *annexe = annexeItem->element;
+            writeAnnexe(doc, annexe);
+        }
+   
+}
+
 void writeTexteEnrichi(a_document doc, tag *t)
 {
     tag *childDocument = t->children->element;
 
     writeDocument(doc, childDocument);
+
+    item *annexes = t->children->next;
+
+    if (annexes != EMPTY_LIST)
+    {
+        writeAnnexes(doc, t->children->next->element);
+    }
 }

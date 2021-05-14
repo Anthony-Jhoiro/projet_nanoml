@@ -14,7 +14,7 @@ tag* parseAnnexes(reader cursor) {
     }
 
     // Creation du tag
-    tag* annexes = createTagWithChildren(t_annexe, children);
+    tag* annexes = createTagWithChildren(t_annexes, children);
 
     return annexes;
 }
