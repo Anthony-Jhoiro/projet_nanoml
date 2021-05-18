@@ -24,6 +24,5 @@ void loadState(a_state state, a_document doc) {
     loadStateSuffix(state, doc);
     
     freeState(state);
-
 }
 

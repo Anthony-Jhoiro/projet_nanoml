@@ -10,12 +10,15 @@ typedef struct s_document
 {
     char prefix[MIDDLE_LINE_SIZE];
     char suffix[MIDDLE_LINE_SIZE];
+    FILE* flux;
     int prefixLength;
     int suffixLength;
     int contentLength;
 } document;
 
 typedef document *a_document;
+
+// --- State --- //
 
 typedef struct s_state
 {
@@ -30,6 +33,24 @@ void freeState(a_state state);
 void loadStatePrefix(a_state state, a_document doc);
 void loadStateSuffix(a_state state, a_document doc);
 void loadState(a_state state, a_document doc);
+
+// --- Document --- //
+int getMaxContentLength(a_document doc);
+a_document initDoc();
+void printPrefix(a_document doc);
+void printSuffix(a_document doc);
+void fillRow(a_document doc);
+void fillRowNoPrefix(a_document doc);
+void appendPrefix(a_document doc, char *newPrefix);
+void appendSuffix(a_document doc, char *newSuffix);
+
+// --- Utils --- //
+void printUpperCase(a_document doc, char *word);
+int strLength(char *word);
+void printRow(a_document doc);
+void printSpaces(a_document doc, int length);
+
+// --- Elements --- //
 
 void writeTexteEnrichi(a_document doc, tag *t);
 

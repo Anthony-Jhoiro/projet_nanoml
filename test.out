@@ -1,0 +1,79 @@
++------------------------------------------------+
+|SUJET DE PROJET NANOML                          |
+|+----------------------------------------------+|
+||GRAMMAIRE                                     ||
+||inspiree par la forme BN.                     ||
+||  #  texte_enrichi ::= document annexes       ||
+||  #  document ::= 'debut_doc' contenu         ||
+||  'fin_doc'                                   ||
+||  #  annexes ::= { 'debut_annexe' contenu     ||
+||  'fin_annexe' } bbb bbb bbb bbb bbb bbb bb   ||
+||  bbb bbb bbb bbb bbb bb                      ||
+||  #  ...                                      ||
+||                                              ||
+|+----------------------------------------------+|
+|+----------------------------------------------+|
+||DEMARCHE DU PROJET                            ||
+||                                              ||
+||  #  Ecrire une permiere version de           ||
+||  l'analyseur gerant les balises              ||
+||    #  document                               ||
+||    #  annexe                                 ||
+||    #  section                                ||
+||    #  et le texte                            ||
+||                                              ||
+||  #  Decorer l'analyseur pour que l'arbre     ||
+||  N-aire soit creer                           ||
+||    #  Ajouter les parametres necessaire aux  ||
+||    fonctions                                 ||
+||    #  Manipuler les noeuds de l'arbre        ||
+||    #  reprendre le programme pour qu'il soit ||
+||    maintenable/reutilisable                  ||
+||    #  reutiliser le travail sur les arbres   ||
+||                                              ||
+||  #  Afficher l'arbre N-aire                  ||
+||  #  Ajouter ce qui manque                    ||
+||  #  Envisager des extensions                 ||
+||                                              ||
+|+----------------------------------------------+|
+|                                                |
++------------------------------------------------+
+                                                  
++------------------------------------------------+
+|CONTACTS                                        |
+|Auteur : Weinberg Benjamin                      |
+|Relecteur : Jacques Julie                       |
+|Relecteur : Gouvy Nicolas                       |
+|                                                |
++------------------------------------------------+
+                                                  
++------------------------------------------------+
+|+----------------------------------------------+|
+||NOTA BENE                                     ||
+||Dans un premiere version, on ne pourra pas    ||
+||voir apparaitre dans un rendu les element     ||
+||syntaxique necessaire a la structuration du   ||
+||document.En effet pour realiser ceci, il      ||
+||faudrait que l'analyseur puisse distinguer    ||
+||entre une balise qui structrele document etune||
+||balise que doit apparaitre comme du texte.Ceci||
+||pourrait etre realiser en affinant            ||
+||l'analyseur, notamment en ajoutant des        ||
+||caracteres d'evitement.                       ||
+|+----------------------------------------------+|
+|+----------------------------------------------+|
+||LISTE NON EXHAUSTIVE D'AMELIORATION           ||
+||                                              ||
+||  #  affiner l'analyseur pour que les balises ||
+||  se decoupe en 3 parties : les chevrons      ||
+||  ouvrant et fermant et le nom de l'element;  ||
+||  #  ajouter un moyen de faire un echappement ||
+||  pour qu'un texte puisse contenir le texte   ||
+||  d'une balise;                               ||
+||  #  gerer une numerotation des titres en     ||
+||  fonction de la hierachie des sections;      ||
+||  #  ajouter des balises.                     ||
+||                                              ||
+|+----------------------------------------------+|
+|                                                |
++------------------------------------------------+

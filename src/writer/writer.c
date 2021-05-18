@@ -1,130 +1,5 @@
 #include "writer.h"
 
-int strLength(char *word)
-{
-    if (word == NULL)
-    {
-        fprintf(stderr, "ERROR: NULL WORD");
-        exit(12);
-    }
-    int i = 0;
-    while (word[i] != '\0')
-    {
-        i++;
-    }
-    return i;
-}
-
-int getMaxContentLength(a_document doc)
-{
-    return LINE_SIZE - doc->prefixLength - doc->suffixLength - doc->contentLength;
-}
-
-void printRow(a_document doc)
-{
-    int length = getMaxContentLength(doc);
-    if (length < 2)
-    {
-        fprintf(stderr, "Error: Row to short");
-    }
-    printf("+");
-    for (int i = 0; i < length - 2; i++)
-    {
-        printf("-");
-    }
-    printf("+");
-
-    doc->contentLength = length;
-}
-
-void printSpaces(int length)
-{
-    for (int i = 0; i < length; i++)
-    {
-        printf(" ");
-    }
-}
-
-void printPrefix(a_document doc)
-{
-    for (int i = 0; i < doc->prefixLength; i++)
-    {
-        printf("%c", doc->prefix[i]);
-    }
-}
-
-void printSuffix(a_document doc)
-{
-    for (int i = doc->suffixLength - 1; i >= 0; i--)
-    {
-        printf("%c", doc->suffix[i]);
-    }
-    printf("\n");
-}
-
-void fillRow(a_document doc)
-{
-    printSpaces(LINE_SIZE - (doc->contentLength + doc->suffixLength + doc->prefixLength));
-    printSuffix(doc);
-    printPrefix(doc);
-    doc->contentLength = 0;
-}
-
-void fillRowNoPrefix(a_document doc)
-{
-    printSpaces(LINE_SIZE - (doc->contentLength + doc->suffixLength + doc->prefixLength));
-    printSuffix(doc);
-    doc->contentLength = 0;
-}
-
-a_document initDoc()
-{
-    a_document doc = malloc(sizeof(document));
-    doc->prefixLength = 0;
-    doc->suffixLength = 0;
-    doc->contentLength = 0;
-    return doc;
-}
-
-void appendPrefix(a_document doc, char *newPrefix)
-{
-    int i = 0;
-    while (newPrefix[i] != '\0')
-    {
-        doc->prefix[doc->prefixLength] = newPrefix[i];
-        doc->prefixLength++;
-        i++;
-    }
-}
-
-void appendSuffix(a_document doc, char *newSuffix)
-{
-    int i = 0;
-    while (newSuffix[i] != '\0')
-    {
-        doc->suffix[doc->suffixLength] = newSuffix[i];
-        doc->suffixLength++;
-        i++;
-    }
-}
-
-void printUpperCase(char *word)
-{
-
-    for (int i = 0; word[i] != '\0'; i++)
-    {
-        char c = word[i];
-        if ('a' <= c && c <= 'z')
-        {
-            printf("%c", c + ('A' - 'a'));
-        }
-        else
-        {
-            printf("%c", c);
-        }
-    }
-}
-
 void writeMotSimple(a_document doc, tag *t, int upperCase)
 {
     char *word = t->content;
@@ -145,23 +20,23 @@ void writeMotSimple(a_document doc, tag *t, int upperCase)
     }
     if (upperCase)
     {
-        printUpperCase(word);
+        printUpperCase(doc, word);
     }
     else
     {
-        printf("%s", word);
+        fprintf(doc->flux, "%s", word);
     }
     doc->contentLength += wordLength;
     if (wordLength != maxLength)
     {
-        printf(" ");
+        fprintf(doc->flux, " ");
         doc->contentLength++;
     }
 }
 
 void writeMotImportant(a_document doc, tag *t, int upperCase)
 {
-    char *word = t->content;
+    char *word = t->children->element->content;
 
     int maxLength = getMaxContentLength(doc);
 
@@ -177,21 +52,21 @@ void writeMotImportant(a_document doc, tag *t, int upperCase)
             exit(11);
         }
     }
-    printf("\"");
+    fprintf(doc->flux, "\"");
     if (upperCase)
     {
-        printUpperCase(word);
+        printUpperCase(doc, word);
     }
     else
     {
-        printf("%s", word);
+        fprintf(doc->flux, "%s", word);
     }
-    printf("\"");
+    fprintf(doc->flux, "\"");
 
     doc->contentLength += wordLength;
     if (wordLength != maxLength)
     {
-        printf(" ");
+        fprintf(doc->flux, " ");
         doc->contentLength++;
     }
 }
@@ -213,7 +88,7 @@ void writeMotEnrichi(a_document doc, tag *t, int upperCase)
         break;
 
     case t_retour_ligne:
-        fillRow(doc);
+        fillRowNoPrefix(doc);
         break;
 
     default:
@@ -235,13 +110,14 @@ void writeTexte(a_document doc, tag *t, int upperCase)
 void writeTitre(a_document doc, tag *t)
 {
     item *child = t->children;
+    printPrefix(doc);
 
     if (child != EMPTY_LIST)
     {
         writeTexte(doc, child->element, 1);
     }
 
-    fillRow(doc);
+    fillRowNoPrefix(doc);
 }
 
 void writeListeTexte(a_document doc, tag *t)
@@ -261,6 +137,7 @@ void writeTexteListe(a_document doc, tag *t)
     item *childTexte = t->children;
 
     writeTexte(doc, childTexte->element, 0);
+    fillRowNoPrefix(doc);
 
     if (childTexte->next != EMPTY_LIST)
     {
@@ -273,7 +150,10 @@ void writeItem(a_document doc, tag *t)
     tag *child = t->children->element;
     a_state previousState = saveState(doc);
 
-    printf("  #  ");
+    // TODO : check length
+    printPrefix(doc);
+
+    fprintf(doc->flux, "  #  ");
     doc->contentLength += 3;
     appendPrefix(doc, "  ");
 
@@ -285,17 +165,12 @@ void writeItem(a_document doc, tag *t)
     {
         writeListeTexte(doc, child);
     }
-
-    fillRowNoPrefix(doc);
     loadState(previousState, doc);
-    printPrefix(doc);
 }
 
 void writeListe(a_document doc, tag *t)
 {
     item *child = t->children;
-
-    fillRow(doc);
 
     while (child != EMPTY_LIST)
     {
@@ -315,97 +190,82 @@ void writeContenu(a_document doc, tag *t)
         tagsNames name = child->element->tagName;
         if (name == t_mot_enrichi)
         {
+            if (doc->contentLength == 0)
+            {
+                printPrefix(doc);
+            }
             writeMotEnrichi(doc, child->element, 0);
         }
-        else if (name == t_section)
+        else
         {
-            writeSection(doc, child->element);
-        }
-        else if (name == t_titre)
-        {
-            writeTitre(doc, child->element);
-        }
-        else if (name == t_liste)
-        {
-            writeListe(doc, child->element);
+            if (doc->contentLength != 0)
+            {
+                fillRowNoPrefix(doc);
+            }
+
+            if (name == t_section)
+            {
+                writeSection(doc, child->element);
+            }
+            else if (name == t_titre)
+            {
+                writeTitre(doc, child->element);
+            }
+            else if (name == t_liste)
+            {
+                writeListe(doc, child->element);
+            }
         }
 
         child = child->next;
     }
+
+    if (doc->contentLength != 0)
+    {
+        fillRowNoPrefix(doc);
+    }
+}
+
+void writeBox(a_document doc, tag *t)
+{
+    a_state previousState = saveState(doc);
+
+    printRow(doc);
+    appendPrefix(doc, "|");
+    appendSuffix(doc, "|");
+
+    tag *childContenu = t->children->element;
+
+    writeContenu(doc, childContenu);
+
+    loadState(previousState, doc);
+    printRow(doc);
 }
 
 void writeSection(a_document doc, tag *t)
 {
-    a_state previousState = saveState(doc);
-    fillRow(doc);
-
-    printRow(doc);
-    appendPrefix(doc, "|");
-    fillRow(doc);
-    appendSuffix(doc, "|");
-
-    tag *childContenu = t->children->element;
-
-    writeContenu(doc, childContenu);
-
-    fillRowNoPrefix(doc);
-    loadState(previousState, doc);
-    printPrefix(doc);
-
-    printRow(doc);
+    writeBox(doc, t);
 }
 
 void writeDocument(a_document doc, tag *t)
 {
-    a_state previousState = saveState(doc);
-
-    printRow(doc);
-    appendPrefix(doc, "|");
-    fillRow(doc);
-    appendSuffix(doc, "|");
-
-    tag *childContenu = t->children->element;
-
-    writeContenu(doc, childContenu);
-
-    fillRowNoPrefix(doc);
-    loadState(previousState, doc);
-    printPrefix(doc);
-
-    printRow(doc);
+    writeBox(doc, t);
 }
 
 void writeAnnexe(a_document doc, tag *t)
 {
-    a_state previousState = saveState(doc);
-
-    printRow(doc);
-    appendPrefix(doc, "|");
-    fillRow(doc);
-    appendSuffix(doc, "|");
-
-    tag *childContenu = t->children->element;
-
-    writeContenu(doc, childContenu);
-
-    fillRowNoPrefix(doc);
-    loadState(previousState, doc);
-    printPrefix(doc);
-
-    printRow(doc);
+    writeBox(doc, t);
 }
 
 void writeAnnexes(a_document doc, tag *t)
 {
 
     for (item *annexeItem = t->children; annexeItem != EMPTY_LIST; annexeItem = annexeItem->next)
-        {
-            fillRow(doc);
+    {
 
-            tag *annexe = annexeItem->element;
-            writeAnnexe(doc, annexe);
-        }
-   
+        tag *annexe = annexeItem->element;
+        writeAnnexe(doc, annexe);
+    }
 }
 
 void writeTexteEnrichi(a_document doc, tag *t)
