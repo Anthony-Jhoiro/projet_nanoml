@@ -124,7 +124,7 @@ void writeInDocUppercase(document *doc, char *format, ...){
     for (int i = 0; buff[i] != '\0'; i++){
 
         if(buff[i] >= 'a' && buff[i] <= 'z'){
-            buff[i] = buff[i] + ('A' - 'a');
+            buff[i] = buff[i] + DIST_A_a;
         }
 
     }

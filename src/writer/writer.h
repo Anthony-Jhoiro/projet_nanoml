@@ -5,6 +5,7 @@
 
 #define LINE_SIZE 50
 #define MIDDLE_LINE_SIZE 25
+#define DIST_A_a 'A' - 'a'
 
 typedef struct s_document
 {

@@ -8,7 +8,7 @@ void printUpperCase(a_document doc, char *word)
         char c = word[i];
         if ('a' <= c && c <= 'z')
         {
-            fprintf(doc->flux, "%c", c + ('A' - 'a'));
+            fprintf(doc->flux, "%c", c + DIST_A_a);
         }
         else
         {
