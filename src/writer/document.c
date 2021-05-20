@@ -1,4 +1,5 @@
 #include "writer.h"
+#include <stdarg.h>
 
 a_document initDoc()
 {
@@ -68,3 +69,66 @@ void fillRowNoPrefix(a_document doc)
     printSuffix(doc);
     doc->contentLength = 0;
 }
+
+void writeBufferInDoc(document *doc, char* buff, int wordLength) {
+    int maxLength = getMaxContentLength(doc);
+
+    if (wordLength > maxLength)
+    {
+        fillRow(doc);
+        int maxLength = getMaxContentLength(doc);
+        if (wordLength > maxLength)
+        {
+            fprintf(stderr, "Error: Can not write word [%s]", buff);
+            exit(11);
+        }
+    }
+    fprintf(doc->flux, "%s", buff);
+    doc->contentLength += wordLength;
+}
+
+void writeInDoc(document *doc, char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    char buff[BUFFER_SIZE + 2];
+
+    int length = vsprintf(buff, format, args);
+
+    buff[length] = '\0';
+
+    int wordLength = strLength(buff);
+    
+    writeBufferInDoc(doc, buff, length);
+
+    va_end(args);
+}
+
+void writeInDocUppercase(document *doc, char *format, ...){
+
+    va_list args;
+    va_start(args, format);
+    char buff[BUFFER_SIZE + 2];
+
+    int length = vsprintf(buff, format, args);
+
+    buff[length] = '\0';
+
+    int wordLength = strLength(buff);
+
+    // uppercase the buffer
+    for (int counter = 0; buff[counter] != '\0'; counter++){
+
+        if(buff[counter] >= 'a' && buff[counter] <= 'z'){
+            buff[counter] = buff[counter] + 26;
+        }
+
+    }
+    
+    writeBufferInDoc(doc, buff, length + 1);
+
+    va_end(args);
+
+}
+
+

@@ -36,39 +36,42 @@ void writeMotSimple(a_document doc, tag *t, int upperCase)
 
 void writeMotImportant(a_document doc, tag *t, int upperCase)
 {
-    char *word = t->children->element->content;
+    item *child = t->children;
 
-    int maxLength = getMaxContentLength(doc);
+    if (child == EMPTY_LIST){
+        writeInDoc(doc, "\"\"");
+        return;
+    }
 
-    int wordLength = strLength(word) + 2;
-
-    if (wordLength > maxLength)
-    {
-        fillRow(doc);
-        int maxLength = getMaxContentLength(doc);
-        if (wordLength > maxLength)
-        {
-            fprintf(stderr, "Error: Can not write word [\"%s\"]", word);
-            exit(11);
+    if (child->next == EMPTY_LIST){
+        if(upperCase){
+            writeInDocUppercase(doc, "\"%s\"", child->element->content);
+            return;
         }
+        writeInDoc(doc, "\"%s\"", child->element->content);
+        return;
     }
-    fprintf(doc->flux, "\"");
-    if (upperCase)
-    {
-        printUpperCase(doc, word);
-    }
-    else
-    {
-        fprintf(doc->flux, "%s", word);
-    }
-    fprintf(doc->flux, "\"");
 
-    doc->contentLength += wordLength;
-    if (wordLength != maxLength)
-    {
-        fprintf(doc->flux, " ");
-        doc->contentLength++;
+    if(upperCase){
+        writeInDocUppercase(doc, "\"%s", child->element->content);
+        child = child->next;
+        while (child->next != EMPTY_LIST){
+            writeInDocUppercase(doc, " %s", child->element->content);
+            child = child->next;
+        }
+
+        writeInDocUppercase(doc, " %s\"", child->element->content);
+        return;
     }
+
+    writeInDoc(doc, "\"%s", child->element->content);
+    child = child->next;
+    while (child->next != EMPTY_LIST){
+        writeInDoc(doc, " %s", child->element->content);
+        child = child->next;
+    }
+    writeInDoc(doc, " %s\"", child->element->content);
+    
 }
 
 void writeMotEnrichi(a_document doc, tag *t, int upperCase)

@@ -43,6 +43,8 @@ void fillRow(a_document doc);
 void fillRowNoPrefix(a_document doc);
 void appendPrefix(a_document doc, char *newPrefix);
 void appendSuffix(a_document doc, char *newSuffix);
+void writeInDoc(document *doc, char *format, ...);
+void writeInDocUppercase(document *doc, char *format, ...);
 
 // --- Utils --- //
 void printUpperCase(a_document doc, char *word);
