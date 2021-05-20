@@ -85,6 +85,10 @@ void writeBufferInDoc(document *doc, char* buff, int wordLength) {
     }
     fprintf(doc->flux, "%s", buff);
     doc->contentLength += wordLength;
+    if (wordLength != maxLength) {
+        fprintf(doc->flux, " ");
+        doc->contentLength++;
+    }
 }
 
 void writeInDoc(document *doc, char *format, ...)
@@ -117,15 +121,15 @@ void writeInDocUppercase(document *doc, char *format, ...){
     int wordLength = strLength(buff);
 
     // uppercase the buffer
-    for (int counter = 0; buff[counter] != '\0'; counter++){
+    for (int i = 0; buff[i] != '\0'; i++){
 
-        if(buff[counter] >= 'a' && buff[counter] <= 'z'){
-            buff[counter] = buff[counter] + 26;
+        if(buff[i] >= 'a' && buff[i] <= 'z'){
+            buff[i] = buff[i] + ('A' - 'a');
         }
 
     }
     
-    writeBufferInDoc(doc, buff, length + 1);
+    writeBufferInDoc(doc, buff, length);
 
     va_end(args);
 
