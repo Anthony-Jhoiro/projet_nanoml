@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyDocument(char* tagName) {
     char documentTag[] = "document";

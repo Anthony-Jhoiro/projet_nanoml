@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyTexteEnrichi(char* tagName) {
     return 1;

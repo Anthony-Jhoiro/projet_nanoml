@@ -2,15 +2,7 @@
 #define PARSER_H
 
 #include "../tag/tag.h"
-#include <stdio.h>
-
-typedef struct s_reader {
-    FILE* file;
-    char currentChar;
-    char currentTag[BUFFER_SIZE];
-} t_reader;
-
-typedef t_reader* reader;
+#include "reader/reader.h"
 
 
 typedef struct s_parser
@@ -22,11 +14,8 @@ typedef struct s_parser
 void assertCurrentTag(reader cursor, char* tagName);
 
 
-void nextCharacter(reader cursor);
-
 a_tag  parser(char* filename);
 
-reader createReader(char* filename);
 
 t_tag readTag(reader cursor, t_tagName name);
 

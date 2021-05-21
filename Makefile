@@ -18,7 +18,7 @@ run: clean all
 # $^ => all files (nanoml.c & $(SRC)/**/*.c) 
 # $@ => target ($(BIN)/$(EXECUTABLE))
 
-$(BIN)/$(EXECUTABLE): nanoml.c $(SRC)/**/*.c
+$(BIN)/$(EXECUTABLE): nanoml.c $(SRC)/**/*.c $(SRC)/**/**/*.c
 	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
 
 clean:

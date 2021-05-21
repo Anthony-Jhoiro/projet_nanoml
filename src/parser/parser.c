@@ -13,30 +13,6 @@ a_tag  parser(char *filename)
     return res;
 }
 
-void nextCharacter(reader cursor)
-{
-
-    cursor->currentChar = fgetc(cursor->file);
-    printf("\e[0;34m%c\e[0;37m", cursor->currentChar);
-
-    // if (cursor->currentChar == EOF)
-    // {
-    //     fprintf(stderr, "Unexpected end of file.\n");
-    //     exit(1);
-    // }
-}
-
-reader createReader(char *filename)
-{
-    reader cursor = (reader)malloc(sizeof(t_reader));
-
-    cursor->file = fopen(filename, "r");
-
-    nextCharacter(cursor);
-
-    return cursor;
-}
-
 int estChevronGauche(char c)
 {
     return c == '<';
