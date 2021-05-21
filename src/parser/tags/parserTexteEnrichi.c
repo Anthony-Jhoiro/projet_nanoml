@@ -1,10 +1,10 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyTexteEnrichi(char* tagName) {
     return 1;
 }
 
-tag* parseTexteEnrichi(reader cursor) {
+a_tag  parseTexteEnrichi(reader cursor) {
     // Read document
     t_parser p_document = createDocumentParser();
 
@@ -14,15 +14,15 @@ tag* parseTexteEnrichi(reader cursor) {
         exit(5);
     }
 
-    tag* document = p_document.execute(cursor);
+    a_tag  document = p_document.execute(cursor);
 
     // Read Annexes
     t_parser p_annexes = createAnnexesParser();
 
-    tag* annexes = p_annexes.execute(cursor);
+    a_tag  annexes = p_annexes.execute(cursor);
 
     // Creation du tag
-    tag* texteEnrichi = createTag(t_texte_enrichi);
+    a_tag  texteEnrichi = createTag(e_texte_enrichi);
     addChild(texteEnrichi, document);
 
     if (annexes != TAG_NULL) {

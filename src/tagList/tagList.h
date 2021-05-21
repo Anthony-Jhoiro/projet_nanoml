@@ -5,20 +5,20 @@
 
 #define END_TAG_LIST NULL
 
-typedef item* tagList;
+typedef t_item* tagList;
 
 /**
  * \brief Create an empty list
  * \param element first element of the list
  */
-tagList createList(tag* element);
+tagList createList(a_tag  element);
 
 /**
  * \brief Add a tag to a list
  * \param tagList the list to update
  * \param element the tag to add
  */
-tagList appendToList(tagList tagList, tag* element);
+tagList appendToList(tagList tagList, a_tag  element);
 
 /**
  * TODO : comment

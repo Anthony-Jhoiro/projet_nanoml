@@ -1,41 +1,16 @@
 #include "parser.h"
 
-void parser(char *filename)
+a_tag  parser(char *filename)
 {
     reader cursor = createReader(filename);
 
     t_parser parser = createTexteEnrichiParser();
 
-    tag *res = parser.execute(cursor);
-
-    printf("\n\n");
-    printTag(res);
+    a_tag res = parser.execute(cursor);
 
     fclose(cursor->file);
-}
 
-void nextCharacter(reader cursor)
-{
-
-    cursor->currentChar = fgetc(cursor->file);
-    printf("\e[0;34m%c\e[0;37m", cursor->currentChar);
-
-    // if (cursor->currentChar == EOF)
-    // {
-    //     fprintf(stderr, "Unexpected end of file.\n");
-    //     exit(1);
-    // }
-}
-
-reader createReader(char *filename)
-{
-    reader cursor = (reader)malloc(sizeof(t_reader));
-
-    cursor->file = fopen(filename, "r");
-
-    nextCharacter(cursor);
-
-    return cursor;
+    return res;
 }
 
 int estChevronGauche(char c)
@@ -102,7 +77,7 @@ tagList zeroOuPlus(t_parser parser, reader cursor)
     return list;
 }
 
-tag *ou(reader cursor, t_parser *parsers, int nbParsers)
+a_tag ou(reader cursor, t_parser *parsers, int nbParsers)
 {
     for (int i = 0; i < nbParsers; i++)
     {

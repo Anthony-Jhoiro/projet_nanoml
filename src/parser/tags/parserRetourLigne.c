@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyRetourLigne(char* tagName) {
     // Tag name must be null or important
@@ -7,9 +7,9 @@ int verifyRetourLigne(char* tagName) {
     return compareStr(tagName, retourLigneTag);
 }
 
-tag* parseRetourLigne(reader cursor) {
+a_tag  parseRetourLigne(reader cursor) {
 
-    tag* retourLigne = createTag(t_retour_ligne);
+    a_tag  retourLigne = createTag(e_retour_ligne);
 
     return retourLigne;
 }

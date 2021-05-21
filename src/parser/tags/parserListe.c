@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyListe(char* tagName) {
     // Tag name must be null or important
@@ -6,7 +6,7 @@ int verifyListe(char* tagName) {
     return compareStr(tagName, listTag);
 }
 
-tag* parseListe(reader cursor) {
+a_tag  parseListe(reader cursor) {
 
     t_parser p_item = createItemParser();
 
@@ -16,7 +16,7 @@ tag* parseListe(reader cursor) {
     readClosingTag(cursor);
     assertCurrentTag(cursor, "liste");
 
-    tag* liste = createTagWithChildren(t_liste, children);
+    a_tag  liste = createTagWithChildren(e_liste, children);
 
     return liste;
 }

@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyImportant(char *tagName)
 {
@@ -6,7 +6,7 @@ int verifyImportant(char *tagName)
     return compareStr(tagName, importantTag);
 }
 
-tag *parseImportant(reader cursor)
+a_tag parseImportant(reader cursor)
 {
     // Create Mot simple parser structure
     t_parser motSimple = createMotSimpleParser();
@@ -19,7 +19,7 @@ tag *parseImportant(reader cursor)
     assertCurrentTag(cursor, "important");
 
     // Create tag
-    tag *importantTag = createTagWithChildren(t_mot_important, children);
+    a_tag importantTag = createTagWithChildren(e_mot_important, children);
 
     // return the tag
     return importantTag;

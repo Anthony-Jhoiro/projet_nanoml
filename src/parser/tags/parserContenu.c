@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyContenu(char *tagName)
 {
@@ -7,13 +7,13 @@ int verifyContenu(char *tagName)
 }
 
 
-tag *parseContenu(reader cursor)
+a_tag parseContenu(reader cursor)
 { 
     t_parser p_contenuUnique = createContenuUniqueParser();
 
     tagList children = zeroOuPlus(p_contenuUnique, cursor);
 
-    tag* contenuTag = createTagWithChildren(t_contenu, children);
+    a_tag contenuTag = createTagWithChildren(e_contenu, children);
 
     return contenuTag;
 }

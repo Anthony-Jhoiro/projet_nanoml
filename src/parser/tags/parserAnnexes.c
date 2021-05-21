@@ -1,10 +1,10 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyAnnexes(char* tagName) {
     return 1;
 }
 
-tag* parseAnnexes(reader cursor) {
+a_tag  parseAnnexes(reader cursor) {
     t_parser p_annexe = createAnnexeUnitaireParser();
 
     tagList children = zeroOuPlus(p_annexe, cursor);
@@ -14,7 +14,7 @@ tag* parseAnnexes(reader cursor) {
     }
 
     // Creation du tag
-    tag* annexes = createTagWithChildren(t_annexe, children);
+    a_tag  annexes = createTagWithChildren(e_annexes, children);
 
     return annexes;
 }

@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifySection(char* tagName) {
     // Tag name must be null or importants
@@ -6,12 +6,12 @@ int verifySection(char* tagName) {
     return compareStr(tagName, sectionTag);
 }
 
-tag* parseSection(reader cursor) {
+a_tag  parseSection(reader cursor) {
     t_parser p_contenu = createContenuParser();
 
-    tag* section = createTag(t_section);
+    a_tag  section = createTag(e_section);
 
-    tag* child = p_contenu.execute(cursor); 
+    a_tag  child = p_contenu.execute(cursor); 
 
     if(child == TAG_NULL){
         fprintf(stderr, "expected contenu in section\n");

@@ -1,27 +1,21 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyAnnexeUnitaire(char* tagName) {
     char annexeTag[] = "annexe";
     return compareStr(tagName, annexeTag);
 }
 
-tag* parseAnnexeUnitaire(reader cursor) {
+a_tag  parseAnnexeUnitaire(reader cursor) {
     t_parser p_contenu = createContenuParser();
 
-    readOpeningTag(cursor);
-    if (!p_contenu.verify(cursor->currentTag)) {
-        fprintf(stderr, "Error: Empty annexe.");
-        exit(4);
-    }
-
-    tag* child = p_contenu.execute(cursor);   
+    a_tag  child = p_contenu.execute(cursor);   
 
     // Verify closing tag
     readClosingTag(cursor);
     assertCurrentTag(cursor, "annexe");
 
     // Creation du tag
-    tag* annexe = createTag(t_annexe);
+    a_tag  annexe = createTag(e_annexe);
     addChild(annexe, child);
 
     return annexe;

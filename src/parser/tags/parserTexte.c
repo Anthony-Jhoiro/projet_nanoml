@@ -1,11 +1,11 @@
-#include "parser.h"
+#include "../parser.h"
 
 int verifyTexte(char* _) {
     // Tag name must be null or importants
     return 1;
 }
 
-tag* parseTexte(reader cursor) {
+a_tag  parseTexte(reader cursor) {
     t_parser p_motEnrichi = createMotEnrichiParser();
 
     tagList children = zeroOuPlus(p_motEnrichi, cursor);
@@ -14,7 +14,7 @@ tag* parseTexte(reader cursor) {
         return TAG_NULL;
     }
 
-    tag* texte = createTagWithChildren(t_texte, children);
+    a_tag  texte = createTagWithChildren(e_texte, children);
 
     return texte;
 }
