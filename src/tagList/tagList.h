@@ -11,14 +11,14 @@ typedef t_item* tagList;
  * \brief Create an empty list
  * \param element first element of the list
  */
-tagList createList(t_tag* element);
+tagList createList(a_tag  element);
 
 /**
  * \brief Add a tag to a list
  * \param tagList the list to update
  * \param element the tag to add
  */
-tagList appendToList(tagList tagList, t_tag* element);
+tagList appendToList(tagList tagList, a_tag  element);
 
 /**
  * TODO : comment

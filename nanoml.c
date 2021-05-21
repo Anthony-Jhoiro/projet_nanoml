@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    t_tag* parsedDoc = parser("test.xml");
+    a_tag  parsedDoc = parser("test.xml");
 
     printf("\n");
 

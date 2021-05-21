@@ -65,7 +65,7 @@ typedef struct s_tag
     char *content;
 } t_tag;
 
-typedef t_tag *root;
-typedef t_tag *a_tag;
+typedef t_tag* a_tag;
+typedef a_tag root;
 
 #endif

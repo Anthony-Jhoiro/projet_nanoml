@@ -5,7 +5,7 @@ int verifyDocument(char* tagName) {
     return compareStr(tagName, documentTag);
 }
 
-t_tag* parseDocument(reader cursor) {
+a_tag  parseDocument(reader cursor) {
     t_parser p_contenu = createContenuParser();
 
     // readOpeningTag(cursor);
@@ -14,14 +14,14 @@ t_tag* parseDocument(reader cursor) {
     //     exit(4);
     // }
 
-    t_tag* child = p_contenu.execute(cursor);   
+    a_tag  child = p_contenu.execute(cursor);   
 
     // Verify closing tag
     readClosingTag(cursor);
     assertCurrentTag(cursor, "document");
 
     // Creation du tag
-    t_tag* document = createTag(e_document);
+    a_tag  document = createTag(e_document);
     addChild(document, child);
 
     return document;

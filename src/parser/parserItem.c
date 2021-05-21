@@ -7,7 +7,7 @@ int verifyItem(char *tagName)
     return compareStr(tagName, itemTag);
 }
 
-t_tag *parseItem(reader cursor)
+a_tag parseItem(reader cursor)
 {
     t_parser p_listeTexte = createListeTexteParser();
     t_parser p_texteListe = createTexteListeParser();
@@ -15,9 +15,9 @@ t_tag *parseItem(reader cursor)
     t_parser parsers[2] = {p_listeTexte, p_texteListe};
     int nbParsers = 2;
 
-    t_tag *child = ou(cursor, parsers, nbParsers);
+    a_tag child = ou(cursor, parsers, nbParsers);
 
-    t_tag *item = createTag(e_item);
+    a_tag item = createTag(e_item);
 
     addChild(item, child);
 

@@ -4,7 +4,7 @@
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see t_tagName)
  */
-t_tag *createTag(t_tagName name)
+a_tag createTag(t_tagName name)
 {
     return createTagMotSimple(name, NULL);
 }
@@ -12,9 +12,9 @@ t_tag *createTag(t_tagName name)
 /**
  * TODO : comment
  */
-t_tag *createTagWithChildren(t_tagName name, tagList children)
+a_tag createTagWithChildren(t_tagName name, tagList children)
 {
-    t_tag* t = createTag(name);
+    a_tag  t = createTag(name);
     t->children = children;
     return t;
 }
@@ -24,9 +24,9 @@ t_tag *createTagWithChildren(t_tagName name, tagList children)
  * \param name The name of the tag (see t_tagName)
  * \param content The content of the tag
  */
-t_tag *createTagMotSimple(t_tagName name, char *content)
+a_tag createTagMotSimple(t_tagName name, char *content)
 {
-    t_tag *t = malloc(sizeof(t_tag));
+    a_tag t = malloc(sizeof(t_tag));
 
     t->tagName = name;
     t->content = content;
@@ -35,7 +35,7 @@ t_tag *createTagMotSimple(t_tagName name, char *content)
     return t;
 }
 
-void addChild(t_tag *father, t_tag *child)
+void addChild(a_tag father, a_tag child)
 {
     father->children = appendToList(father->children, child);
 }
@@ -108,7 +108,7 @@ void printTabs(int n)
     }
 }
 
-void printTagAux(t_tag *element, int decalage)
+void printTagAux(a_tag element, int decalage)
 {
     if (element == NULL)
         return;
@@ -158,7 +158,7 @@ void printTagAux(t_tag *element, int decalage)
  *                            </section>
  *                  </document>
  */
-void printTag(t_tag *element)
+void printTag(a_tag element)
 {
     printTagAux(element, 0);
 }

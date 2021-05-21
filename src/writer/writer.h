@@ -56,14 +56,14 @@ void printSpaces(a_document doc, int length);
 
 // --- Elements --- //
 
-void writeTexteEnrichi(a_document doc, t_tag *t);
+void writeTexteEnrichi(a_document doc, a_tag t);
 
-void writeContenu(a_document doc, t_tag *t);
-void writeSection(a_document doc, t_tag *t);
+void writeContenu(a_document doc, a_tag t);
+void writeSection(a_document doc, a_tag t);
 
-void writeListeTexte(a_document doc, t_tag *t);
-void writeTexteListe(a_document doc, t_tag *t);
-void writeListe(a_document doc, t_tag *t);
+void writeListeTexte(a_document doc, a_tag t);
+void writeTexteListe(a_document doc, a_tag t);
+void writeListe(a_document doc, a_tag t);
 
 a_document initDoc();
 

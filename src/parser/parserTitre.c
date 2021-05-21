@@ -6,19 +6,19 @@ int verifyTitre(char *tagName)
     return compareStr(tagName, titleTag);
 }
 
-t_tag *parseTitre(reader cursor)
+a_tag parseTitre(reader cursor)
 {
     // On passe les espaces
     readSpaces(cursor);
 
     t_parser parserTexte = createTexteParser();
 
-    t_tag* texte = parserTexte.execute(cursor);
+    a_tag  texte = parserTexte.execute(cursor);
 
     readClosingTag(cursor);
     assertCurrentTag(cursor, "titre");
 
-    t_tag* titre = createTag(e_titre);
+    a_tag  titre = createTag(e_titre);
     
     addChild(titre, texte);
 

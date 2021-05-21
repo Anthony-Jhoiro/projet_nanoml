@@ -4,7 +4,7 @@ int verifyTexteEnrichi(char* tagName) {
     return 1;
 }
 
-t_tag* parseTexteEnrichi(reader cursor) {
+a_tag  parseTexteEnrichi(reader cursor) {
     // Read document
     t_parser p_document = createDocumentParser();
 
@@ -14,15 +14,15 @@ t_tag* parseTexteEnrichi(reader cursor) {
         exit(5);
     }
 
-    t_tag* document = p_document.execute(cursor);
+    a_tag  document = p_document.execute(cursor);
 
     // Read Annexes
     t_parser p_annexes = createAnnexesParser();
 
-    t_tag* annexes = p_annexes.execute(cursor);
+    a_tag  annexes = p_annexes.execute(cursor);
 
     // Creation du tag
-    t_tag* texteEnrichi = createTag(e_texte_enrichi);
+    a_tag  texteEnrichi = createTag(e_texte_enrichi);
     addChild(texteEnrichi, document);
 
     if (annexes != TAG_NULL) {

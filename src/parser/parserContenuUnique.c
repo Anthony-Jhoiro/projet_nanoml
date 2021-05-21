@@ -6,7 +6,7 @@ int verifyContenuUnique(char *tagName)
     return verifySection(tagName) || verifyTitre(tagName) || verifyMotEnrichi(tagName) || verifyListe(tagName);
 }
 
-t_tag *parseContenuUnique(reader cursor)
+a_tag parseContenuUnique(reader cursor)
 {
     int nbParsers = 4;
 

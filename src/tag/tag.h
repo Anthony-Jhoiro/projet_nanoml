@@ -11,21 +11,21 @@
  * \param name The name of the tag (see t_tagName)
  * \param content The content of the tag
  */
-t_tag *createTag(t_tagName name);
+a_tag createTag(t_tagName name);
 
-t_tag *createTagWithChildren(t_tagName name, tagList children);
+a_tag createTagWithChildren(t_tagName name, tagList children);
 
 /**
  * \brief This function creates a tag and allocate the memory.
  * \param name The name of the tag (see t_tagName)
  * \param content The content of the tag
  */
-t_tag *createTagMotSimple(t_tagName name, char* content);
+a_tag createTagMotSimple(t_tagName name, char* content);
 
 /**
  * TODO : comment
  */
-void addChild(t_tag* father, t_tag* child);
+void addChild(a_tag  father, a_tag  child);
 
 /**
  * TODO : comment
@@ -35,6 +35,6 @@ void addChild(t_tag* father, t_tag* child);
  *                            </section>
  *                  </document>
  */
-void printTag(t_tag* element);
+void printTag(a_tag  element);
 
 #endif

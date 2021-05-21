@@ -5,7 +5,7 @@ int verifyMotSimple(char *tagName)
     return tagName[0] == '\0';
 }
 
-t_tag *parseMotSimple(reader cursor)
+a_tag parseMotSimple(reader cursor)
 {
     // On passe les espaces
     readSpaces(cursor);

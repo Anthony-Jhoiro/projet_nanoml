@@ -6,7 +6,7 @@ int verifyListe(char* tagName) {
     return compareStr(tagName, listTag);
 }
 
-t_tag* parseListe(reader cursor) {
+a_tag  parseListe(reader cursor) {
 
     t_parser p_item = createItemParser();
 
@@ -16,7 +16,7 @@ t_tag* parseListe(reader cursor) {
     readClosingTag(cursor);
     assertCurrentTag(cursor, "liste");
 
-    t_tag* liste = createTagWithChildren(e_liste, children);
+    a_tag  liste = createTagWithChildren(e_liste, children);
 
     return liste;
 }

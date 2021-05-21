@@ -1,12 +1,12 @@
 #include "parser.h"
 
-t_tag* parser(char *filename)
+a_tag  parser(char *filename)
 {
     reader cursor = createReader(filename);
 
     t_parser parser = createTexteEnrichiParser();
 
-    t_tag *res = parser.execute(cursor);
+    a_tag res = parser.execute(cursor);
 
     fclose(cursor->file);
 
@@ -101,7 +101,7 @@ tagList zeroOuPlus(t_parser parser, reader cursor)
     return list;
 }
 
-t_tag *ou(reader cursor, t_parser *parsers, int nbParsers)
+a_tag ou(reader cursor, t_parser *parsers, int nbParsers)
 {
     for (int i = 0; i < nbParsers; i++)
     {

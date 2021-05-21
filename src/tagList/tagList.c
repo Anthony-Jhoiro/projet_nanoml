@@ -3,7 +3,7 @@
 /**
  * \brief Create an empty list
  */
-tagList createList(t_tag* element) {
+tagList createList(a_tag  element) {
     tagList liste = malloc(sizeof(t_item));
     liste->element = element;
     liste->next = END_TAG_LIST;
@@ -16,7 +16,7 @@ tagList createList(t_tag* element) {
  * \param tagList the list to update
  * \param element the tag to add
  */
-tagList appendToList(tagList list, t_tag* element) {
+tagList appendToList(tagList list, a_tag  element) {
     if (list == EMPTY_LIST) {
         return createList(element);
     } else if (list->next == END_TAG_LIST) {

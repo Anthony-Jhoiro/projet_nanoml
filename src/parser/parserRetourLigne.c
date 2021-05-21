@@ -7,9 +7,9 @@ int verifyRetourLigne(char* tagName) {
     return compareStr(tagName, retourLigneTag);
 }
 
-t_tag* parseRetourLigne(reader cursor) {
+a_tag  parseRetourLigne(reader cursor) {
 
-    t_tag* retourLigne = createTag(e_retour_ligne);
+    a_tag  retourLigne = createTag(e_retour_ligne);
 
     return retourLigne;
 }
