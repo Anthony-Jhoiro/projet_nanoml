@@ -8,7 +8,7 @@ a_tag  parser(char *filename)
 
     a_tag res = parser.execute(cursor);
 
-    fclose(cursor->file);
+    freeReader(cursor);
 
     return res;
 }
