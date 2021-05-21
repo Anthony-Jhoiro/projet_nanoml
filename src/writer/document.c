@@ -8,6 +8,7 @@ a_document initDoc()
     doc->prefixLength = 0;
     doc->suffixLength = 0;
     doc->contentLength = 0;
+    doc->uppercase = 0;
     return doc;
 }
 

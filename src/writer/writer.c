@@ -1,10 +1,10 @@
 #include "writer.h"
 
-void writeMotSimple(a_document doc, tag *t, int upperCase)
+void writeMotSimple(a_document doc, tag *t)
 {
     char *word = t->content;
 
-    if (upperCase) {
+    if (doc->uppercase) {
         writeInDocUppercase(doc, "%s", word);
         return;
     }
@@ -12,7 +12,7 @@ void writeMotSimple(a_document doc, tag *t, int upperCase)
     writeInDoc(doc, "%s", word);
 }
 
-void writeMotImportant(a_document doc, tag *t, int upperCase)
+void writeMotImportant(a_document doc, tag *t)
 {
     item *child = t->children;
 
@@ -22,7 +22,7 @@ void writeMotImportant(a_document doc, tag *t, int upperCase)
     }
 
     if (child->next == EMPTY_LIST){
-        if(upperCase){
+        if(doc->uppercase){
             writeInDocUppercase(doc, "\"%s\"", child->element->content);
             return;
         }
@@ -30,7 +30,7 @@ void writeMotImportant(a_document doc, tag *t, int upperCase)
         return;
     }
 
-    if(upperCase){
+    if(doc->uppercase){
         writeInDocUppercase(doc, "\"%s", child->element->content);
         child = child->next;
         while (child->next != EMPTY_LIST){
@@ -52,7 +52,7 @@ void writeMotImportant(a_document doc, tag *t, int upperCase)
     
 }
 
-void writeMotEnrichi(a_document doc, tag *t, int upperCase)
+void writeMotEnrichi(a_document doc, tag *t)
 {
     tag *child = t->children->element;
 
@@ -61,11 +61,11 @@ void writeMotEnrichi(a_document doc, tag *t, int upperCase)
     switch (tagName)
     {
     case t_mot_simple:
-        writeMotSimple(doc, child, upperCase);
+        writeMotSimple(doc, child);
         break;
 
     case t_mot_important:
-        writeMotImportant(doc, child, upperCase);
+        writeMotImportant(doc, child);
         break;
 
     case t_retour_ligne:
@@ -77,13 +77,13 @@ void writeMotEnrichi(a_document doc, tag *t, int upperCase)
     }
 }
 
-void writeTexte(a_document doc, tag *t, int upperCase)
+void writeTexte(a_document doc, tag *t)
 {
     item *child = t->children;
 
     while (child != EMPTY_LIST)
     {
-        writeMotEnrichi(doc, child->element, upperCase);
+        writeMotEnrichi(doc, child->element);
         child = child->next;
     }
 }
@@ -95,7 +95,9 @@ void writeTitre(a_document doc, tag *t)
 
     if (child != EMPTY_LIST)
     {
-        writeTexte(doc, child->element, 1);
+        doc->uppercase = 1;
+        writeTexte(doc, child->element);
+        doc->uppercase = 0;
     }
 
     fillRowNoPrefix(doc);
@@ -117,7 +119,7 @@ void writeTexteListe(a_document doc, tag *t)
 {
     item *childTexte = t->children;
 
-    writeTexte(doc, childTexte->element, 0);
+    writeTexte(doc, childTexte->element);
     fillRowNoPrefix(doc);
 
     if (childTexte->next != EMPTY_LIST)
@@ -175,7 +177,7 @@ void writeContenu(a_document doc, tag *t)
             {
                 printPrefix(doc);
             }
-            writeMotEnrichi(doc, child->element, 0);
+            writeMotEnrichi(doc, child->element);
         }
         else
         {

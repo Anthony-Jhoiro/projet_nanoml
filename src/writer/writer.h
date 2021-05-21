@@ -15,6 +15,7 @@ typedef struct s_document
     int prefixLength;
     int suffixLength;
     int contentLength;
+    char uppercase;
 } document;
 
 typedef document *a_document;
