@@ -1,6 +1,6 @@
 #include "writer.h"
 
-void writeMotSimple(a_document doc, tag *t)
+void writeMotSimple(a_document doc, t_tag *t)
 {
     char *word = t->content;
 
@@ -12,9 +12,9 @@ void writeMotSimple(a_document doc, tag *t)
     writeInDoc(doc, "%s", word);
 }
 
-void writeMotImportant(a_document doc, tag *t)
+void writeMotImportant(a_document doc, t_tag *t)
 {
-    item *child = t->children;
+    t_item *child = t->children;
 
     if (child == EMPTY_LIST){
         writeInDoc(doc, "\"\"");
@@ -52,23 +52,23 @@ void writeMotImportant(a_document doc, tag *t)
     
 }
 
-void writeMotEnrichi(a_document doc, tag *t)
+void writeMotEnrichi(a_document doc, t_tag *t)
 {
-    tag *child = t->children->element;
+    t_tag *child = t->children->element;
 
-    tagsNames tagName = child->tagName;
+    t_tagName tagName = child->tagName;
 
     switch (tagName)
     {
-    case t_mot_simple:
+    case e_mot_simple:
         writeMotSimple(doc, child);
         break;
 
-    case t_mot_important:
+    case e_mot_important:
         writeMotImportant(doc, child);
         break;
 
-    case t_retour_ligne:
+    case e_retour_ligne:
         fillRowNoPrefix(doc);
         break;
 
@@ -77,9 +77,9 @@ void writeMotEnrichi(a_document doc, tag *t)
     }
 }
 
-void writeTexte(a_document doc, tag *t)
+void writeTexte(a_document doc, t_tag *t)
 {
-    item *child = t->children;
+    t_item *child = t->children;
 
     while (child != EMPTY_LIST)
     {
@@ -88,9 +88,9 @@ void writeTexte(a_document doc, tag *t)
     }
 }
 
-void writeTitre(a_document doc, tag *t)
+void writeTitre(a_document doc, t_tag *t)
 {
-    item *child = t->children;
+    t_item *child = t->children;
     printPrefix(doc);
 
     if (child != EMPTY_LIST)
@@ -103,9 +103,9 @@ void writeTitre(a_document doc, tag *t)
     fillRowNoPrefix(doc);
 }
 
-void writeListeTexte(a_document doc, tag *t)
+void writeListeTexte(a_document doc, t_tag *t)
 {
-    item *childTexte = t->children;
+    t_item *childTexte = t->children;
 
     writeListe(doc, childTexte->element);
 
@@ -115,9 +115,9 @@ void writeListeTexte(a_document doc, tag *t)
     }
 }
 
-void writeTexteListe(a_document doc, tag *t)
+void writeTexteListe(a_document doc, t_tag *t)
 {
-    item *childTexte = t->children;
+    t_item *childTexte = t->children;
 
     writeTexte(doc, childTexte->element);
     fillRowNoPrefix(doc);
@@ -128,9 +128,9 @@ void writeTexteListe(a_document doc, tag *t)
     }
 }
 
-void writeItem(a_document doc, tag *t)
+void writeItem(a_document doc, t_tag *t)
 {
-    tag *child = t->children->element;
+    t_tag *child = t->children->element;
     a_state previousState = saveState(doc);
 
     // TODO : check length
@@ -140,7 +140,7 @@ void writeItem(a_document doc, tag *t)
     doc->contentLength += 3;
     appendPrefix(doc, "  ");
 
-    if (child->tagName == t_texte_liste)
+    if (child->tagName == e_texte_liste)
     {
         writeTexteListe(doc, child);
     }
@@ -151,13 +151,13 @@ void writeItem(a_document doc, tag *t)
     loadState(previousState, doc);
 }
 
-void writeListe(a_document doc, tag *t)
+void writeListe(a_document doc, t_tag *t)
 {
-    item *child = t->children;
+    t_item *child = t->children;
 
     while (child != EMPTY_LIST)
     {
-        if (child->element->tagName == t_item)
+        if (child->element->tagName == e_item)
         {
             writeItem(doc, child->element);
         }
@@ -165,13 +165,13 @@ void writeListe(a_document doc, tag *t)
     }
 }
 
-void writeContenu(a_document doc, tag *t)
+void writeContenu(a_document doc, t_tag *t)
 {
-    item *child = t->children;
+    t_item *child = t->children;
     while (child != EMPTY_LIST)
     {
-        tagsNames name = child->element->tagName;
-        if (name == t_mot_enrichi)
+        t_tagName name = child->element->tagName;
+        if (name == e_mot_enrichi)
         {
             if (doc->contentLength == 0)
             {
@@ -186,15 +186,15 @@ void writeContenu(a_document doc, tag *t)
                 fillRowNoPrefix(doc);
             }
 
-            if (name == t_section)
+            if (name == e_section)
             {
                 writeSection(doc, child->element);
             }
-            else if (name == t_titre)
+            else if (name == e_titre)
             {
                 writeTitre(doc, child->element);
             }
-            else if (name == t_liste)
+            else if (name == e_liste)
             {
                 writeListe(doc, child->element);
             }
@@ -209,7 +209,7 @@ void writeContenu(a_document doc, tag *t)
     }
 }
 
-void writeBox(a_document doc, tag *t)
+void writeBox(a_document doc, t_tag *t)
 {
     a_state previousState = saveState(doc);
 
@@ -217,7 +217,7 @@ void writeBox(a_document doc, tag *t)
     appendPrefix(doc, "|");
     appendSuffix(doc, "|");
 
-    tag *childContenu = t->children->element;
+    t_tag *childContenu = t->children->element;
 
     writeContenu(doc, childContenu);
 
@@ -225,39 +225,39 @@ void writeBox(a_document doc, tag *t)
     printRow(doc);
 }
 
-void writeSection(a_document doc, tag *t)
+void writeSection(a_document doc, t_tag *t)
 {
     writeBox(doc, t);
 }
 
-void writeDocument(a_document doc, tag *t)
+void writeDocument(a_document doc, t_tag *t)
 {
     writeBox(doc, t);
 }
 
-void writeAnnexe(a_document doc, tag *t)
+void writeAnnexe(a_document doc, t_tag *t)
 {
     writeBox(doc, t);
 }
 
-void writeAnnexes(a_document doc, tag *t)
+void writeAnnexes(a_document doc, t_tag *t)
 {
 
-    for (item *annexeItem = t->children; annexeItem != EMPTY_LIST; annexeItem = annexeItem->next)
+    for (t_item *annexeItem = t->children; annexeItem != EMPTY_LIST; annexeItem = annexeItem->next)
     {
 
-        tag *annexe = annexeItem->element;
+        t_tag *annexe = annexeItem->element;
         writeAnnexe(doc, annexe);
     }
 }
 
-void writeTexteEnrichi(a_document doc, tag *t)
+void writeTexteEnrichi(a_document doc, t_tag *t)
 {
-    tag *childDocument = t->children->element;
+    t_tag *childDocument = t->children->element;
 
     writeDocument(doc, childDocument);
 
-    item *annexes = t->children->next;
+    t_item *annexes = t->children->next;
 
     if (annexes != EMPTY_LIST)
     {

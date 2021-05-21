@@ -6,12 +6,12 @@ int verifySection(char* tagName) {
     return compareStr(tagName, sectionTag);
 }
 
-tag* parseSection(reader cursor) {
+t_tag* parseSection(reader cursor) {
     t_parser p_contenu = createContenuParser();
 
-    tag* section = createTag(t_section);
+    t_tag* section = createTag(e_section);
 
-    tag* child = p_contenu.execute(cursor); 
+    t_tag* child = p_contenu.execute(cursor); 
 
     if(child == TAG_NULL){
         fprintf(stderr, "expected contenu in section\n");

@@ -21,27 +21,27 @@
 /**
  * TODO : comment
  */
-typedef enum e_tags
-{ // TODO : do something
-    t_texte_enrichi,
-    t_document,
-    t_annexe,
-    t_annexes,
-    t_contenu,
-    t_section,
-    t_titre,
-    t_liste,
-    t_item,
-    t_liste_texte,
-    t_texte_liste,
-    t_texte,
-    t_contenu_texte,
-    t_mot_enrichi,
-    t_mot_important,
-    t_mot_simple,
-    t_retour_ligne,
+typedef enum E_tags
+{ 
+    e_texte_enrichi,
+    e_document,
+    e_annexe,
+    e_annexes,
+    e_contenu,
+    e_section,
+    e_titre,
+    e_liste,
+    e_item,
+    e_liste_texte,
+    e_texte_liste,
+    e_texte,
+    e_contenu_texte,
+    e_mot_enrichi,
+    e_mot_important,
+    e_mot_simple,
+    e_retour_ligne,
 
-} tagsNames;
+} t_tagName;
 
 /**
  * TODO : comment
@@ -50,20 +50,22 @@ typedef struct s_item
 {
     struct s_tag *element;
     struct s_item *next;
-} item;
+} t_item;
 
-typedef item *tag_list;
+typedef t_item *t_tagList;
+typedef t_item *a_item;
 
 /**
  * TODO : comment
  */
 typedef struct s_tag
 {
-    tagsNames tagName;
-    tag_list children;
+    t_tagName tagName;
+    t_tagList children;
     char *content;
-} tag;
+} t_tag;
 
-typedef tag *root;
+typedef t_tag *root;
+typedef t_tag *a_tag;
 
 #endif

@@ -5,17 +5,17 @@ int verifyAnnexeUnitaire(char* tagName) {
     return compareStr(tagName, annexeTag);
 }
 
-tag* parseAnnexeUnitaire(reader cursor) {
+t_tag* parseAnnexeUnitaire(reader cursor) {
     t_parser p_contenu = createContenuParser();
 
-    tag* child = p_contenu.execute(cursor);   
+    t_tag* child = p_contenu.execute(cursor);   
 
     // Verify closing tag
     readClosingTag(cursor);
     assertCurrentTag(cursor, "annexe");
 
     // Creation du tag
-    tag* annexe = createTag(t_annexe);
+    t_tag* annexe = createTag(e_annexe);
     addChild(annexe, child);
 
     return annexe;

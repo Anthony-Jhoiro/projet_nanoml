@@ -5,11 +5,11 @@ int verifyMotEnrichi(char* tagName) {
     return verifyMotSimple(tagName) || verifyImportant(tagName) || verifyRetourLigne(tagName);
 }
 
-tag* parseMotEnrichi(reader cursor) {
+t_tag* parseMotEnrichi(reader cursor) {
     t_parser parsers[3] = {createMotSimpleParser(), createImportantParser(), createRetourLigneParser()};
     int nbParser = 3;
 
-    tag* motEnrichi = createTag(t_mot_enrichi);
+    t_tag* motEnrichi = createTag(e_mot_enrichi);
 
     addChild(motEnrichi, ou(cursor, parsers, nbParser));
 

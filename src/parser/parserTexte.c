@@ -5,7 +5,7 @@ int verifyTexte(char* _) {
     return 1;
 }
 
-tag* parseTexte(reader cursor) {
+t_tag* parseTexte(reader cursor) {
     t_parser p_motEnrichi = createMotEnrichiParser();
 
     tagList children = zeroOuPlus(p_motEnrichi, cursor);
@@ -14,7 +14,7 @@ tag* parseTexte(reader cursor) {
         return TAG_NULL;
     }
 
-    tag* texte = createTagWithChildren(t_texte, children);
+    t_tag* texte = createTagWithChildren(e_texte, children);
 
     return texte;
 }

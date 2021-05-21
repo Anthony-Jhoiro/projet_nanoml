@@ -4,7 +4,7 @@ int verifyAnnexes(char* tagName) {
     return 1;
 }
 
-tag* parseAnnexes(reader cursor) {
+t_tag* parseAnnexes(reader cursor) {
     t_parser p_annexe = createAnnexeUnitaireParser();
 
     tagList children = zeroOuPlus(p_annexe, cursor);
@@ -14,7 +14,7 @@ tag* parseAnnexes(reader cursor) {
     }
 
     // Creation du tag
-    tag* annexes = createTagWithChildren(t_annexes, children);
+    t_tag* annexes = createTagWithChildren(e_annexes, children);
 
     return annexes;
 }

@@ -5,7 +5,7 @@ int verifyMotSimple(char *tagName)
     return tagName[0] == '\0';
 }
 
-tag *parseMotSimple(reader cursor)
+t_tag *parseMotSimple(reader cursor)
 {
     // On passe les espaces
     readSpaces(cursor);
@@ -25,7 +25,7 @@ tag *parseMotSimple(reader cursor)
         return TAG_NULL;
     }
 
-    return createTagMotSimple(t_mot_simple, buffer);
+    return createTagMotSimple(e_mot_simple, buffer);
 }
 
 t_parser createMotSimpleParser()

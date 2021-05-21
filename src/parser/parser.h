@@ -15,7 +15,7 @@ typedef t_reader* reader;
 
 typedef struct s_parser
 {
-    tag* (*execute)(reader);
+    t_tag* (*execute)(reader);
     int (*verify)(char*);
 } t_parser;
 
@@ -24,17 +24,17 @@ void assertCurrentTag(reader cursor, char* tagName);
 
 void nextCharacter(reader cursor);
 
-tag* parser(char* filename);
+t_tag* parser(char* filename);
 
 reader createReader(char* filename);
 
-tag readTag(reader cursor, tagsNames name);
+t_tag readTag(reader cursor, t_tagName name);
 
 /**
  * TODO : words with more than 256 characters
  */
 
-tag* readText(reader cursor);
+t_tag* readText(reader cursor);
 
 int estEspace(char c);
 
@@ -42,7 +42,7 @@ void readSpaces(reader cursor);
 
 int estChevronGauche(char c);
 
-tag* lireMotSimple(reader cursor);
+t_tag* lireMotSimple(reader cursor);
 
 /**
  * \brief read an important word in the file (it reads "<important> + content + </important>")
@@ -55,11 +55,11 @@ tag* lireMotSimple(reader cursor);
  * <important> exemple </important>
  * (spaces are facultative)
  */
-tag* lireMotImportant(reader cursor);
+t_tag* lireMotImportant(reader cursor);
 
 tagList zeroOuPlus(t_parser parser, reader cursor);
 
-tag *ou(reader cursor, t_parser *parsers, int nbParsers);
+t_tag *ou(reader cursor, t_parser *parsers, int nbParsers);
 
 
 int compareStr(char* str1, char* str2);
@@ -141,11 +141,11 @@ int verifyTitre(char *tagName);
 
 
 
-tag* lireMotSimple(reader cursor);
+t_tag* lireMotSimple(reader cursor);
 
-tag* lireMotImportant(reader cursor);
+t_tag* lireMotImportant(reader cursor);
 
-tag* lireMotEnrichi(reader cursor);
+t_tag* lireMotEnrichi(reader cursor);
 
 
 int readOpeningTag(reader cursor);

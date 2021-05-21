@@ -8,24 +8,24 @@
 
 /**
  * \brief This function creates a tag and allocate the memory.
- * \param name The name of the tag (see tagsNames)
+ * \param name The name of the tag (see t_tagName)
  * \param content The content of the tag
  */
-tag *createTag(tagsNames name);
+t_tag *createTag(t_tagName name);
 
-tag *createTagWithChildren(tagsNames name, tagList children);
+t_tag *createTagWithChildren(t_tagName name, tagList children);
 
 /**
  * \brief This function creates a tag and allocate the memory.
- * \param name The name of the tag (see tagsNames)
+ * \param name The name of the tag (see t_tagName)
  * \param content The content of the tag
  */
-tag *createTagMotSimple(tagsNames name, char* content);
+t_tag *createTagMotSimple(t_tagName name, char* content);
 
 /**
  * TODO : comment
  */
-void addChild(tag* father, tag* child);
+void addChild(t_tag* father, t_tag* child);
 
 /**
  * TODO : comment
@@ -35,6 +35,6 @@ void addChild(tag* father, tag* child);
  *                            </section>
  *                  </document>
  */
-void printTag(tag* element);
+void printTag(t_tag* element);
 
 #endif
