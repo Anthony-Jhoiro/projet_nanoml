@@ -38,7 +38,8 @@ void loadState(a_state state, a_document doc);
 
 // --- Document --- //
 int getMaxContentLength(a_document doc);
-a_document initDoc();
+a_document initDoc(FILE* flux);
+void freeDoc(a_document doc);
 void printPrefix(a_document doc);
 void printSuffix(a_document doc);
 void fillRow(a_document doc);

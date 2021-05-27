@@ -1,6 +1,6 @@
 #include "parser.h"
 
-a_tag  parser(char *filename)
+a_tag  parser(const char *filename)
 {
     reader cursor = createReader(filename);
 
@@ -89,7 +89,7 @@ a_tag ou(reader cursor, t_parser *parsers, int nbParsers)
     return TAG_NULL;
 }
 
-int compareStr(char *str1, char *str2)
+int compareStr(const char *str1, const  char *str2)
 {
 
     int cpt = 0;

@@ -1,15 +1,19 @@
 #include "writer.h"
 #include <stdarg.h>
 
-a_document initDoc()
+a_document initDoc(FILE* flux)
 {
     a_document doc = malloc(sizeof(document));
-    doc->flux = stdout;
+    doc->flux = flux;
     doc->prefixLength = 0;
     doc->suffixLength = 0;
     doc->contentLength = 0;
     doc->uppercase = 0;
     return doc;
+}
+
+void freeDoc(a_document doc) {
+    free(doc);
 }
 
 int getMaxContentLength(a_document doc)

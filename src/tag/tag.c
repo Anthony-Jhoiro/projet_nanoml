@@ -151,7 +151,7 @@ void printTagAux(a_tag element, int decalage)
 }
 
 /**
- * TODO : comment
+ * Print a tag and its content like an xml doc
  * result example : <document>
  *                            <section>
  *                                      Bonjour le monde

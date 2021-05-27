@@ -7,14 +7,15 @@
 void nextCharacter(reader cursor)
 {
     cursor->currentChar = fgetc(cursor->file);
-    printf("\e[0;34m%c\e[0;37m", cursor->currentChar);
+    // ? Uncomment to debug
+    // printf("\e[0;34m%c\e[0;37m", cursor->currentChar);
 }
 
 /**
  * Create a reader from the filename. /!\ Remember to close the file after using it
  * \param filemane path to the file to read
  */
-reader createReader(char *filename)
+reader createReader(const char *filename)
 {
     reader cursor = (reader)malloc(sizeof(t_reader));
 

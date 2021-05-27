@@ -25,7 +25,7 @@ void nextCharacter(reader cursor);
  * Create a reader from the filename. /!\ Remember to close the file after using it
  * \param filemane path to the file to read
  */
-reader createReader(char* filename);
+reader createReader(const char* filename);
 
 /**
  * Free the memory of the given reader

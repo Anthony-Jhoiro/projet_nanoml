@@ -27,7 +27,7 @@ void assertCurrentTag(reader cursor, char* tagName);
  * Parse a filename and return a a_tag struct
  * \param filemane path to the file to parse
  */
-a_tag parser(char* filename);
+a_tag parser(const char* filename);
 
 /**
  * Return 1 if the given character is a space char (' ', '\t', '\n', EOF)
@@ -88,7 +88,7 @@ a_tag ou(reader cursor, t_parser *parsers, int nbParsers);
  * \param str1 first char* to compare
  * \param str2 second char* to compare
  */ 
-int compareStr(char* str1, char* str2);
+int compareStr(const char* str1, const char* str2);
 
 
 //----------- parser pour chaque tag ------------------
