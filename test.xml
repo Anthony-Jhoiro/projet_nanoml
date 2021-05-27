@@ -63,9 +63,9 @@
         <titre> Liste non exhaustive d'amelioration </titre>
         <liste>
             <item> affiner l'analyseur pour que les balises se decoupe en 3 parties : les chevrons ouvrant et fermant et le nom de l'element; </item>
-            <item> ajouter un moyen de faire un echappement pour qu'un texte puisse contenir le texte d'une balise;</item>
+            <item> ajouter un moyen de faire un echappement pour qu'un texte puisse contenir le texte d'une balise; &lt;&gt;&quot;&apos;&amp; </item>
             <item> gerer une numerotation des titres en fonction de la hierachie des sections; </item>
-            <item> ajouter des balises. </item>
+            <item> ajouter des balises.</item>
         </liste>
     </section>
 </annexe>

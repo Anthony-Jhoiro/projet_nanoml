@@ -4,6 +4,8 @@
 #include "../tag/tag.h"
 #include "reader/reader.h"
 
+#define MAX_ESCAPE_CHARACTER_SIZE 6
+
 /**
  * Defines a parser.
  * A parser is a structure composed of 2 functions :
