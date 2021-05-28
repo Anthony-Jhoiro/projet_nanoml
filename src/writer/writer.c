@@ -1,5 +1,9 @@
 #include "writer.h"
 
+/**
+ * \brief Ecrit un mot simple. Un mot simple est une succession de caractère. 
+ * Si le document demande d'écrire en majuscule, le texte sera écrit en majuscule 
+ */
 void writeMotSimple(a_document doc, a_tag t)
 {
     char *word = t->content;
@@ -12,6 +16,10 @@ void writeMotSimple(a_document doc, a_tag t)
     writeInDoc(doc, "%s", word);
 }
 
+/**
+ * \brief Ecrit un mot important un mot important contient un ou plusieurs mot simple, le tout entourré de `"`. 
+ * Nous avons __ABSOLUMENT__ tenu à ce que les `"` ne soient pas détachés des mots adjacents sans saut de ligne entre.
+ */
 void writeMotImportant(a_document doc, a_tag t)
 {
     t_item *child = t->children;
@@ -52,6 +60,9 @@ void writeMotImportant(a_document doc, a_tag t)
     
 }
 
+/**
+ * \brief Ecrit un mot enrichi. Un mot enrichi est soit un mot simple ou un mot important ou un saut de ligne.
+ */
 void writeMotEnrichi(a_document doc, a_tag t)
 {
     a_tag child = t->children->element;
@@ -77,6 +88,9 @@ void writeMotEnrichi(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit un texte.texte contient zero ou plusieurs mot enrichi
+ */
 void writeTexte(a_document doc, a_tag t)
 {
     t_item *child = t->children;
@@ -88,6 +102,9 @@ void writeTexte(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit un titre. Un titre contient un prefix avec l'index du titre suivi d'un texte écrit en majuscule
+ */
 void writeTitre(a_document doc, a_tag t)
 {
     t_item *child = t->children;
@@ -113,6 +130,10 @@ void writeTitre(a_document doc, a_tag t)
     fillRowNoPrefix(doc);
 }
 
+
+/**
+ * \brief Ecrit une liste texte. une liste texte contient une liste suivie d'éventuellement un texte.
+ */
 void writeListeTexte(a_document doc, a_tag t)
 {
     t_item *childTexte = t->children;
@@ -125,6 +146,9 @@ void writeListeTexte(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit une texte liste. une texte liste contient un texte suivi d'éventuellement une liste.
+ */
 void writeTexteListe(a_document doc, a_tag t)
 {
     t_item *childTexte = t->children;
@@ -138,6 +162,10 @@ void writeTexteListe(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit un item. un item est une suite de texte et de listes. Le préfixe 
+ * est modifié pendant l'éxecution avec l'ajout de 2 espaces
+ */
 void writeItem(a_document doc, a_tag t)
 {
     a_tag child = t->children->element;
@@ -161,6 +189,9 @@ void writeItem(a_document doc, a_tag t)
     loadState(previousState, doc);
 }
 
+/**
+ * \brief Ecrit une liste. Contient zero ou plusieurs item
+ */
 void writeListe(a_document doc, a_tag t)
 {
     t_item *child = t->children;
@@ -175,6 +206,9 @@ void writeListe(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit un contenu. Contient zero ou plusieurs mot enrichi | section | titre | liste
+ */
 void writeContenu(a_document doc, a_tag t)
 {
     t_item *child = t->children;
@@ -219,6 +253,10 @@ void writeContenu(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit une boite, une boite est contituée d'une ligne de --- entourée de +, 
+ * on ajoute également des `|` comme préfixe et suffixe. Contient un contenu
+ */
 void writeBox(a_document doc, a_tag t)
 {
     a_state previousState = saveState(doc);
@@ -235,21 +273,33 @@ void writeBox(a_document doc, a_tag t)
     printRow(doc);
 }
 
+/**
+ * \brief Ecrit une section Unique. Voir `writeBox`
+ */
 void writeSection(a_document doc, a_tag t)
 {
     writeBox(doc, t);
 }
 
+/**
+ * \brief Ecrit un document Unique. Voir `writeBox`
+ */
 void writeDocument(a_document doc, a_tag t)
 {
     writeBox(doc, t);
 }
 
+/**
+ * \brief Ecrit une annexeUnique Unique. Voir `writeBox`
+ */
 void writeAnnexe(a_document doc, a_tag t)
 {
     writeBox(doc, t);
 }
 
+/**
+ * \brief Ecrit un annexes. Contient zero ou plusieurs annexeUniques
+ */
 void writeAnnexes(a_document doc, a_tag t)
 {
 
@@ -261,6 +311,9 @@ void writeAnnexes(a_document doc, a_tag t)
     }
 }
 
+/**
+ * \brief Ecrit un texte enrichi, un texte enrichi contient un document suivi d'annexes
+ */
 void writeTexteEnrichi(a_document doc, a_tag t)
 {
     a_tag childDocument = t->children->element;

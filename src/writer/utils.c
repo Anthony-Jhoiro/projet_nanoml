@@ -1,5 +1,8 @@
 #include "writer.h"
 
+/**
+ * \brief Ecrit <word> dans document en majuscule.
+ */
 void printUpperCase(a_document doc, char *word)
 {
 
@@ -17,6 +20,9 @@ void printUpperCase(a_document doc, char *word)
     }
 }
 
+/**
+ * \brief Retourne la taille de la chaine de caractère donnée en paramètre
+ */
 int strLength(char *word)
 {
     if (word == NULL)
@@ -32,6 +38,9 @@ int strLength(char *word)
     return i;
 }
 
+/**
+ * \brief Ecrit une ligne dans le document délimittée par des + et contenant des - au milieu
+ */
 void printRow(a_document doc)
 {
     printPrefix(doc);
@@ -51,6 +60,10 @@ void printRow(a_document doc)
     doc->contentLength = 0;
 }
 
+
+/**
+ * \brief Ecrit <length> espaces dans <doc>
+ */
 void printSpaces(a_document doc, int length)
 {
     for (int i = 0; i < length; i++)
@@ -59,6 +72,12 @@ void printSpaces(a_document doc, int length)
     }
 }
 
+/**
+ * \brief Generate a roman number from the given number. Return the length of the number. Place the result in buff
+ * \param num number to convert
+ * \param buff buffer where the number will be written
+ * \param buffSize size of the buffer
+ */
 int toRomanNumber(int num, char *buff, int buffSize)
 {
     int i;
