@@ -1,5 +1,8 @@
 #include "../parser.h"
 
+/**
+ * Always return true
+ */
 int verifyTexteListe(char* tagName) {
     // Tag name must be null or important
     return 1;

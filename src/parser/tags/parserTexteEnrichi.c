@@ -1,5 +1,8 @@
 #include "../parser.h"
 
+/**
+ * Always return true
+ */
 int verifyTexteEnrichi(char* tagName) {
     return 1;
 }

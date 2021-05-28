@@ -1,5 +1,8 @@
 #include "../parser.h"
 
+/**
+ * Always return true
+ */
 int verifyTexte(char* _) {
     // Tag name must be null or importants
     return 1;

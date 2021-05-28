@@ -26,8 +26,9 @@ typedef struct s_parser
 void assertCurrentTag(reader cursor, char* tagName);
 
 /**
- * Parse a filename and return a a_tag struct
+ * Parse a filename and return a tag struct
  * \param filemane path to the file to parse
+ * \return a tag structure representing the content of the file
  */
 a_tag parser(const char* filename);
 
@@ -48,25 +49,6 @@ void readSpaces(reader cursor);
  * \param c the character to control
  */
 int estChevronGauche(char c);
-
-/**
- * Read a motSimple and return the corresponding tag.
- * \param reader reader used to parse the file
- */
-a_tag lireMotSimple(reader cursor);
-
-/**
- * \brief read an important word in the file (it reads "<important> + content + </important>")
- * 
- * \param cursor the file's cursor
- * 
- * \return an important tag
- * 
- * imporant tag exemple :
- * <important> exemple </important>
- * (spaces are facultative)
- */
-a_tag lireMotImportant(reader cursor);
 
 /**
  * Try to use a parser zero or multiple times. Add the parsed tags to a tagList and return it.
@@ -169,15 +151,26 @@ int verifyTitre(char *tagName);
 
 
 
-a_tag  lireMotSimple(reader cursor);
 
-a_tag  lireMotImportant(reader cursor);
-
-a_tag  lireMotEnrichi(reader cursor);
-
-
+/**
+ * Read a tag. If the tag is not valid throw an error and exit the process. If the second character of the tag is a '/' 
+ * this is a closing tag also we are returning -1 and we d not read the rest of the tag. If the tag is valid, its 
+ * text content is moved to cursor->currentTag.
+ * 
+ * Exemples :
+ * 
+ * * "<hello>" => return 1, cursor->currentTag = 'hello'
+ * * "</hello>" => return -1, cursor->currentTag keeps its previous value
+ * * "<hello $" => exit the process with error code 3.
+ * 
+ * :param cursor The cursor used to read the file. 
+ * 
+ */
 int readOpeningTag(reader cursor);
 
+/**
+ * Read a closing tag. If the tag is not valid throw an error and exit the process with status 2
+ */
 void readClosingTag(reader cursor);
 
 #endif

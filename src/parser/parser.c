@@ -1,5 +1,10 @@
 #include "parser.h"
 
+/**
+ * Parse a filename and return a tag struct
+ * \param filemane path to the file to parse
+ * \return a tag structure representing the content of the file
+ */
 a_tag  parser(const char *filename)
 {
     reader cursor = createReader(filename);
@@ -13,16 +18,28 @@ a_tag  parser(const char *filename)
     return res;
 }
 
+/**
+ * Return 1 if the character is a '<'
+ * \param c the character to control
+ */
 int estChevronGauche(char c)
 {
     return c == '<';
 }
 
+/**
+ * Return 1 if the given character is a space char (' ', '\t', '\n', EOF)
+ * \param c character to control
+ */
 int estEspace(char c)
 {
     return c == ' ' || c == '\n' || c == '\t' || c == EOF;
 }
 
+/**
+ * Read the file until a non space character is found
+ * \param cursor Cursor used to read the file
+ */
 void readSpaces(reader cursor)
 {
     while (estEspace(cursor->currentChar) && cursor->currentChar != EOF)
@@ -31,27 +48,10 @@ void readSpaces(reader cursor)
     }
 }
 
-int passerTag(reader cursor, char *strTag)
-{
-    readSpaces(cursor);
-
-    int i = 0;
-    while (strTag[i] != '\0')
-    {
-        if (cursor->currentChar != strTag[i])
-        {
-            return 0;
-        }
-        nextCharacter(cursor);
-        i++;
-    }
-    return 1;
-}
-
 /**
- * TODO handle errors && case empty tag
- * TODO : rename zero ou plus
- * 
+ * Try to use a parser zero or multiple times. Add the parsed tags to a tagList and return it.
+ * \param parser parser that needed 
+ * \param cursor reader used to read the file
  */
 tagList zeroOuPlus(t_parser parser, reader cursor)
 {
@@ -77,6 +77,14 @@ tagList zeroOuPlus(t_parser parser, reader cursor)
     return list;
 }
 
+/**
+ * Function that takes an array of parsers as argument and try to execute them. 
+ * Return the parsed tag or NULL if no parser worked
+ * 
+ * \param cursor cursor used to read the file
+ * \param parsers array of parsers
+ * \param nbParsers number of parsers in the array
+ */
 a_tag ou(reader cursor, t_parser *parsers, int nbParsers)
 {
     for (int i = 0; i < nbParsers; i++)
@@ -89,6 +97,12 @@ a_tag ou(reader cursor, t_parser *parsers, int nbParsers)
     return TAG_NULL;
 }
 
+
+/**
+ * Compare 2 char* char by char. If they are the same return 1 els, return 0
+ * \param str1 first char* to compare
+ * \param str2 second char* to compare
+ */ 
 int compareStr(const char *str1, const  char *str2)
 {
 

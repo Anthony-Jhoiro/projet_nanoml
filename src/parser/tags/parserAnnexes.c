@@ -1,9 +1,18 @@
 #include "../parser.h"
 
+
+/**
+ * Always return true
+ */
 int verifyAnnexes(char* tagName) {
     return 1;
 }
 
+/**
+ * Parse a file using the reader to get an annexe.
+ * @param cursor cursor used to parse the file
+ * @return the finded tag
+ */
 a_tag  parseAnnexes(reader cursor) {
     t_parser p_annexe = createAnnexeUnitaireParser();
 
