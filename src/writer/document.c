@@ -9,6 +9,7 @@ a_document initDoc(FILE* flux)
     doc->suffixLength = 0;
     doc->contentLength = 0;
     doc->uppercase = 0;
+    doc->titleIndex = 1;
     return doc;
 }
 

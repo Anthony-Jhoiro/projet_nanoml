@@ -16,6 +16,9 @@ typedef struct s_document
     int suffixLength;
     int contentLength;
     char uppercase;
+    int titleIndex;
+
+
 } document;
 
 typedef document *a_document;
@@ -54,6 +57,7 @@ void printUpperCase(a_document doc, char *word);
 int strLength(char *word);
 void printRow(a_document doc);
 void printSpaces(a_document doc, int length);
+int toRomanNumber(int num, char *buff, int buffSize);
 
 // --- Elements --- //
 

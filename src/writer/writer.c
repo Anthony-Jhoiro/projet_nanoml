@@ -92,6 +92,16 @@ void writeTitre(a_document doc, a_tag t)
 {
     t_item *child = t->children;
     printPrefix(doc);
+    int maxContent = getMaxContentLength(doc);
+
+    char buff[maxContent];
+
+    int size = toRomanNumber(doc->titleIndex, buff, maxContent);
+
+    writeInDoc(doc, "%s", buff);
+
+    doc->titleIndex++;
+
 
     if (child != EMPTY_LIST)
     {
